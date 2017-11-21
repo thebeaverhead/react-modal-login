@@ -5,23 +5,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import FacebookLoginButton from "./FacebookLoginButton";
-import GoogleLoginButton from "./GoogleLoginButton";
-import Tabs from "./Tabs";
-import CloseBtn from "./Close";
+import FacebookLoginButton from "./components/FacebookLoginButton";
+import GoogleLoginButton from "./components/GoogleLoginButton";
+import Tabs from "./components/Tabs";
+import CloseBtn from "./components/Close";
 
-import LoginError from "./LoginError";
-import RegisterError from "./RegisterError";
-import SocialRegisterError from "./SocialRegisterError";
+import LoginError from "./components/LoginError";
+import RegisterError from "./components/RegisterError";
 
-import Separator from "./Separator";
-import Loader from "./Loader";
+import Separator from "./components/Separator";
+import Loader from "./components/Loader";
 
-import FormWrap from "./FormWrap";
-
+import FormWrap from "./components/FormWrap";
 
 
-export default class SocialLoginModal extends React.Component {
+export default class ReactModalLogin extends React.Component {
 
   constructor(props) {
     super(props);
@@ -79,12 +77,14 @@ export default class SocialLoginModal extends React.Component {
   componentDidUpdate(prevProps, prevState) {
 
     /* Initialize Facebook */
-    if (this.props.providers && this.props.providers.facebook && typeof FB === 'undefined' && this.props.visible) {
+    if (this.props.providers && this.props.providers.facebook && typeof FB === 'undefined' && this.props.visible && !this.props.loading) {
+      this.props.startLoading();
       this.initFBConnect();
     }
 
     /* Initialize Google */
-    if (this.props.providers && this.props.providers.google && typeof window.gapi === 'undefined' && this.props.visible) {
+    if (this.props.providers && this.props.providers.google && typeof window.gapi === 'undefined' && this.props.visible && !this.props.loading) {
+      this.props.startLoading();
       this.initGoogleConnect();
     }
 
@@ -96,19 +96,23 @@ export default class SocialLoginModal extends React.Component {
 
     if (prevState.register !== this.state.register) {
 
-      let loginError = document.getElementById("loginError");
-      let registerError = document.getElementById("registerError");
-      let socialRegisterError = document.getElementById("socialRegisterError");
+      if (this.props.tabs.onChange) {
+        this.props.tabs.onChange();
+      }
 
-      if (loginError) {
-        loginError.innerHTML = '';
-      }
-      if (registerError) {
-        registerError.innerHTML = '';
-      }
-      if (socialRegisterError) {
-        socialRegisterError.innerHTML = '';
-      }
+      // let loginError = document.getElementById("loginError");
+      // let registerError = document.getElementById("registerError");
+      // let socialRegisterError = document.getElementById("socialRegisterError");
+      //
+      // if (loginError) {
+      //   loginError.innerHTML = '';
+      // }
+      // if (registerError) {
+      //   registerError.innerHTML = '';
+      // }
+      // if (socialRegisterError) {
+      //   socialRegisterError.innerHTML = '';
+      // }
     }
   }
 
@@ -130,16 +134,19 @@ export default class SocialLoginModal extends React.Component {
         FB.AppEvents.logPageView();
 
       };
-      (function (d, s, id) {
+      ((d, s, id) => {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {
           return;
         }
         js = d.createElement(s);
         js.id = id;
+        js.onload = () => {
+          this.props.finishLoading();
+        };
         js.src = "https://connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+      })(document, 'script', 'facebook-jssdk');
   }
 
   /**
@@ -159,6 +166,7 @@ export default class SocialLoginModal extends React.Component {
           window.gapi.auth2.init({
             client_id: this.props.providers.google.config.id,
           });
+          this.props.finishLoading();
         })
       };
 
@@ -233,6 +241,7 @@ export default class SocialLoginModal extends React.Component {
     const tabs = this.props.tabs
       ? <Tabs
           containerClass={this.props.tabs.containerClass ? this.props.tabs.containerClass : "RML-login-modal-mode"}
+          inactive={this.props.loading ? this.props.loading : false}
           loginClick={this.tabsLoginClick.bind(this)}
           registerClick={this.tabsRegisterClick.bind(this)}
           registerActive={this.state.register}
@@ -245,7 +254,6 @@ export default class SocialLoginModal extends React.Component {
       ? <CloseBtn
           containerClass={this.props.closeBtn.containerClass ? this.props.closeBtn.containerClass : "RML-login-modal-close"}
           click={() => this.onCloseModal()}
-          label={this.props.closeBtn.label ? this.props.closeBtn.label : <i className="material-icons">clear</i>}
         />
       : null;
 
@@ -255,16 +263,18 @@ export default class SocialLoginModal extends React.Component {
       facebookButton = this.props.providers.facebook.btn
         ? <facebook.btn
             btnClass={facebook.btnClass ? facebook.btnClass : "RML-facebook-login-button"}
+            onStartLoading={this.props.startLoading}
             onSuccess={facebook.onLoginSuccess ? facebook.onLoginSuccess : null}
             onFail={facebook.onLoginFail ? facebook.onLoginFail : null}
-            inactive={facebook.inactive ? facebook.inactive : false}
+            inactive={this.props.loading ? this.props.loading : false}
             label={facebook.label ? facebook.label : "Continue with Facebook"}
           />
         : <FacebookLoginButton
             btnClass={facebook.btnClass ? facebook.btnClass : "RML-facebook-login-button"}
+            onStartLoading={this.props.startLoading}
             onSuccess={facebook.onLoginSuccess ? facebook.onLoginSuccess : null}
             onFail={facebook.onLoginFail ? facebook.onLoginFail : null}
-            inactive={facebook.inactive ? facebook.inactive : false}
+            inactive={this.props.loading ? this.props.loading : false}
             label={facebook.label ? facebook.label : "Continue with Facebook"}
         />;
     }
@@ -275,21 +285,23 @@ export default class SocialLoginModal extends React.Component {
       googleButton = this.props.providers.google.btn
         ? <google.btn
             btnClass={google.btnClass ? google.btnClass : "RML-google-login-button"}
+            onStartLoading={this.props.startLoading}
             onSuccess={google.onLoginSuccess ? google.onLoginSuccess : null}
             onFail={google.onLoginFail ? google.onLoginFail : null}
-            inactive={google.inactive ? google.inactive : false}
+            inactive={this.props.loading ? this.props.loading : false}
             label={google.label ? google.label : "Continue with Google"}
           />
         : <GoogleLoginButton
             btnClass={google.btnClass ? google.btnClass : "RML-google-login-button"}
+            onStartLoading={this.props.startLoading}
             onSuccess={google.onLoginSuccess ? google.onLoginSuccess : null}
             onFail={google.onLoginFail ? google.onLoginFail : null}
-            inactive={google.inactive ? google.inactive : false}
+            inactive={this.props.loading ? this.props.loading : false}
             label={google.label ? google.label : "Continue with Google"}
         />;
     }
 
-    const loginError = this.props.loginError && this.props.loginError.show
+    const loginError = this.props.error
       ? <LoginError
           containerClass={this.props.loginError.containerClass
             ? this.props.loginError.containerClass : "RML-login-modal-error--login"}
@@ -298,7 +310,7 @@ export default class SocialLoginModal extends React.Component {
         />
       : null;
 
-    const registerError = this.props.registerError && this.props.registerError.show
+    const registerError = this.props.error
       ? <RegisterError
           containerClass={this.props.registerError.containerClass
             ? this.props.registerError.containerClass : "RML-login-modal-error--register"}
@@ -307,14 +319,13 @@ export default class SocialLoginModal extends React.Component {
         />
       : null;
 
-    const socialRegisterError = this.props.socialRegisterError && this.props.socialRegisterError.show
-      ? <SocialRegisterError
-          containerClass={this.props.socialRegisterError.containerClass
-            ? this.props.socialRegisterError.containerClass : "RML-login-modal-error--register"}
-          label={this.props.socialRegisterError.label
-            ? this.props.socialRegisterError.label : "Unable to register. Please try again later"}
-      />
-      : null;
+    let errorWrap = null;
+
+    if (this.props.error) {
+      errorWrap = this.state.register
+        ? registerError
+        : loginError;
+    }
 
     const separator = this.props.separator
       ? <Separator
@@ -323,9 +334,11 @@ export default class SocialLoginModal extends React.Component {
         />
       : null;
 
-    const loader = this.props.loader && this.props.loader.show
+
+    const loader = this.props.loading && !this.props.loader.disabled
       ? <Loader
           containerClass={this.props.loader.containerClass ? this.props.loader.containerClass : "RML-login-modal-indicator"}
+          onStartLoading={this.props.startLoading}
           size={24}
         />
       : null;
@@ -334,21 +347,18 @@ export default class SocialLoginModal extends React.Component {
       ? <FormWrap
           register={this.state.register}
           form={this.props.form}
+          inactive={this.props.loading}
           loader={loader}
-          loginError={loginError}
-          registerError={registerError}
-          socialRegisterError={socialRegisterError}
+          errorWrap={errorWrap}
         />
       : null;
 
-    const additionalWrap = (!this.props.form || this.props.form.disabled) && this.props.additionalWrap.show
+    const additionalWrap = (!this.props.form || this.props.form.disabled) && (!this.props.additionalWrap.disabled)
+          && (this.props.loading || this.props.error)
       ? <div
-          className={this.props.additionalWrap && this.props.additionalWrap.containerClass
-            ? this.props.additionalWrap.containerClass : "RML-login-modal-additional-wrap"}
+          className={this.props.additionalWrap.containerClass ? this.props.additionalWrap.containerClass : "RML-login-modal-additional-wrap"}
         >
-          {loginError}
-          {registerError}
-          {socialRegisterError}
+          {errorWrap}
           {loader}
         </div>
       : null;
@@ -386,13 +396,15 @@ export default class SocialLoginModal extends React.Component {
 };
 
 
-SocialLoginModal.defaultProps = {
-  separator: {},
+ReactModalLogin.defaultProps = {
   closeBtn: {},
   tabs: {},
+  providers: {},
+  loader: {},
+  additionalWrap: {}
 };
 
-SocialLoginModal.propTypes = {
+ReactModalLogin.propTypes = {
   mainWrapClass: PropTypes.string,
 
   visible: PropTypes.bool.isRequired,
@@ -403,7 +415,6 @@ SocialLoginModal.propTypes = {
   overlayClass: PropTypes.string,
 
   loginError: PropTypes.shape({
-    show: PropTypes.bool,
     containerClass: PropTypes.string,
     label: PropTypes.oneOfType([
       PropTypes.string,
@@ -411,15 +422,6 @@ SocialLoginModal.propTypes = {
     ])
   }),
   registerError: PropTypes.shape({
-    show: PropTypes.bool,
-    containerClass: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ])
-  }),
-  socialRegisterError: PropTypes.shape({
-    show: PropTypes.bool,
     containerClass: PropTypes.string,
     label: PropTypes.oneOfType([
       PropTypes.string,
@@ -427,7 +429,7 @@ SocialLoginModal.propTypes = {
     ])
   }),
   loader: PropTypes.shape({
-    show: PropTypes.bool,
+    disabled: PropTypes.bool,
     containerClass: PropTypes.string,
   }),
 
@@ -440,14 +442,11 @@ SocialLoginModal.propTypes = {
   }),
 
   closeBtn: PropTypes.shape({
-    containerClass: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ])
+    containerClass: PropTypes.string
   }),
   tabs: PropTypes.shape({
     containerClass: PropTypes.string,
+    onChange: PropTypes.func,
     loginLabel: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element,
@@ -459,12 +458,13 @@ SocialLoginModal.propTypes = {
   }),
   additionalWrap: PropTypes.shape({
     containerClass: PropTypes.string,
-    show: PropTypes.bool,
+    disabled: PropTypes.bool,
   }),
 
 
   providers: PropTypes.shape({
     facebook: PropTypes.shape({
+      btnClass: PropTypes.string,
       config: PropTypes.object.isRequired,
       btn: PropTypes.oneOfType([
         PropTypes.func,
@@ -479,6 +479,7 @@ SocialLoginModal.propTypes = {
       ]),
     }),
     google: PropTypes.shape({
+      btnClass: PropTypes.string,
       config: PropTypes.object.isRequired,
       btn: PropTypes.oneOfType([
         PropTypes.func,

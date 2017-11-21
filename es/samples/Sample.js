@@ -1,5 +1,5 @@
 import React from 'react';
-import SocialModalLogin from './../../src/social-modal-login';
+import ReactModalLogin from '../../src/react-modal-login';
 
 import {facebookConfig, googleConfig} from "../social-config";
 
@@ -124,7 +124,7 @@ export default class Sample extends React.Component {
           Open Modal
         </button>
 
-        <SocialModalLogin
+        <ReactModalLogin
           visible={this.state.showModal}
           onCloseModal={this.closeModal.bind(this)}
           loading={isLoading}

@@ -25,30 +25,20 @@ export default class FormWrap extends React.Component {
     const loginBtn = formProps && formProps.loginBtn
       ? <FormLoginButton
           buttonClass={formProps.loginBtn.buttonClass ? formProps.loginBtn.buttonClass : "RML-btn"}
-          inactive={formProps.loginBtn.inactive ? formProps.loginBtn.inactive : false}
+          inactive={this.props.inactive}
           click={formProps.onLogin ? formProps.onLogin : null}
           label={formProps.loginBtn.label ? formProps.loginBtn.label : "Sign in"}
         />
-      : <FormLoginButton
-          buttonClass={"RML-btn"}
-          disabled={false}
-          click={formProps.onLogin ? formProps.onLogin : null}
-          label={"Sign in"}
-      />;
+      : null;
 
     const registerBtn = formProps.registerBtn
       ? <FormRegisterButton
           buttonClass={formProps.registerBtn.buttonClass ? formProps.registerBtn.buttonClass : "RML-btn"}
-          inactive={formProps.registerBtn.inactive ? formProps.registerBtn.inactive : false}
+          inactive={this.props.inactive}
           click={formProps.onRegister ? formProps.onRegister : null}
           label={formProps.registerBtn.label ? formProps.registerBtn.label : "Sign up"}
         />
-      : <FormRegisterButton
-          buttonClass={"RML-btn"}
-          disabled={false}
-          click={formProps.onRegister ? formProps.onRegister : null}
-          label={"Sign up"}
-      />;
+      : null;
 
     const formLoginInputs = formProps.loginInputs
       ? formProps.loginInputs.map((input, index) => {
