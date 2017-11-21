@@ -21,7 +21,7 @@ npm install --save react-modal-login
 You may find some samples of the plugin at [developers.thebeaverhead.com/react-modal-login](http://developers.thebeaverhead.com/react-modal-login)
 
 
-###Social support
+### Social support
 
 If you're willing to use social login buttons, you need to configure them first.
 You may either keep those settings in a separate file or no, it's up to you.
@@ -52,7 +52,7 @@ export const googleConfig = google;
 
 
 
-###Managing state in parent component
+### Managing state in parent component
 
 Just as I wrote at the upper part of this manual, our component is highly customizable. Thus, some of the methods
 needed for basic functionality need to be passed down from the parent component. Just like in the example below.
@@ -71,7 +71,7 @@ If you would like to enjoy a full range of plugin's functionality you need to:
 
   }
 ```
-You need to create a methods to be passed to ReactModalLogin component such as:
+You need to create methods to be passed to ReactModalLogin component such as:
 
 * `openModal()` - action to open the modal. For instance, you may bind this to click of the "sign in" button etc.
 * `closeModal()` - action to close the modal. You need to pass it to the component later on to enable hiding the modal
@@ -203,46 +203,64 @@ class Sample extends React.Component {
 ```
 ### Component's properties
 
-* `mainWrapClass` |_string_| - class of the whole component's wrapper (which contains both overlay and the popup itself)
-
-* `visible` |_boolean_| - boolean which determines whether popups should be visible or no
-
-* `onCloseModal` |_function_| - function closing the modal
-
-* `onBeforeCloseModal` |_function_| - action executing just before the closing of modal
+* `mainWrapClass` |_string_| - custom class of the whole component's wrapper (which contains both overlay and the popup itself)
 
 * `onAfterCloseModal` |_function_| - action executing just after the closing of modal
 
-* `overlayClass` |_string_| - class of the popup wrap overlay
+* `onBeforeCloseModal` |_function_| - action executing just before the closing of modal
 
-* `loginError` |_object_| - login error message object
-    * `containerClass` |_string_| - login error container class
-    * `label` |_string_ or _element_| - text of failed login message
-    
-* `registerError` |_object_| - register error message object
-    * `containerClass` |_string_| - register error container class
-    * `label` |_string_ or _element_| - text of failed register message
-    
-* `loader` |_object_| - loader svg object
-    * `containerClass` |_string_| - loader container class
-    * `disabled` |_boolean_| - boolean determining if the loader should be disabled
-    
-* `separator` |_object_| - object of separator which sits between social login buttons and custom form
-    * `containerClass` |_string_| - separator class
-    * `label` |_string_ or _element_| - text of separator
-    
-* `closeBtn` |_object_| - close button object
-    * `containerClass` |_string_| - close button container class
-    
-* `tabs` |_object_| - sign in / sign up tabs object
-    * `containerClass` |_string_| - tabs container class
-    * `onChange` |_function_| - callback which fires after the change of a tab
-    * `loginLabel` |_string_| - text of login label
-    * `registerLabel` |_string_| - text of register label
+* `onCloseModal` |_function_| - function closing the modal
+
+* `overlayClass` |_string_| - custom class of the popup wrap overlay
+
+* `visible` |_boolean_| - boolean which determines whether popup should be visible or no
     
 * `additionalWrap` |_object_| - that's the div which shows loader and error messages in case we don't include our custom form
-    * `containerClass` |_string_| - additionalWrap container class
+    * `containerClass` |_string_| - additionalWrap container custom class
     * `disabled` |_boolean_| - boolean determining if the additionalWrap should be disabled
+    
+* `closeBtn` |_object_| - close button object
+    * `containerClass` |_string_| - close button container custom class
+    
+* `form` |_object_| - object of custom login/register form you may include in popup
+    * `onLogin` |_function_| - function executing when user click 'sign in' button
+    * `onRegister` |_function_| - function executing when user click 'sign up' button
+    * `loginContainerClass` |_string_| - custom class of login form container
+    * `registerContainerClass` |_string_| - custom class of register form container
+    
+    * `loginBtn` - |_object_| - login button
+        * `buttonClass` |_string_| - custom class of login button
+        * `label` |_string_ or _element_| - text inside login button
+        
+    * `registerBtn` - |_object_| - register button
+        * `buttonClass` |_string_| - custom class of login button
+        * `label` |_string_ or _element_| - text inside login button
+        
+    * `loginInputs` |_array_| - Array of objects. Every each of them represents single login input field 
+        * `containerClass` |_string_| - custom class of input wrap
+        * `type` |_string_| - HTML type of input (email, password, text, number etc.)
+        * `inputClass` |_string_| - custom class of the input
+        * `id` |_string_| - input's id
+        * `name` |_string_| - input's name
+        * `placeholder` |_string_| - input's placeholder
+        * `label` |_string_ or _element_| - label of the input
+        
+    * `registerInputs` |_array_| - Array of objects. Every each of them represents single register input field
+        * `containerClass` |_string_| - custom class of input wrap
+        * `type` |_string_| - HTML type of input (email, password, text, number etc.)
+        * `inputClass` |_string_| - custom class of the input
+        * `id` |_string_| - input's id
+        * `name` |_string_| - input's name
+        * `placeholder` |_string_| - input's placeholder
+        * `label` |_string_ or _element_| - label of the input
+    
+* `loader` |_object_| - loader svg object
+    * `containerClass` |_string_| - loader container custom class
+    * `disabled` |_boolean_| - boolean determining if the loader should be disabled
+
+* `loginError` |_object_| - login error message object
+    * `containerClass` |_string_| - login error container custom class
+    * `label` |_string_ or _element_| - text of failed login message
     
 * `providers` |_object_| - object containing social buttons providers data
     * `facebook` - |_object_| - facebook button object
@@ -250,8 +268,10 @@ class Sample extends React.Component {
         * `config` |_object_| - Facebook API config parameters used to init the modal
             (for more info please visit [Facebook developers page](https://developers.facebook.com/docs/facebook-login/review))
         * `btn` |_element_| - if you would like to insert custom button for facebook login include it here
-        * `onLoginSuccess` |_function_| - login success callback
-        * `onLoginFail` |_function_| - login fail callback
+        * `onLoginSuccess` |_function(method, response)_| - login success callback. It returns _method_ which will be 'facebook'
+            and login success response
+        * `onLoginFail` |_function(method, response)_| - login fail callback. It returns _method_ which will be 'facebook'
+            and login fail response
         * `label` |_string_ or _element_| - text inside FB button
         
     * `google` - |_object_| - google button object
@@ -259,49 +279,46 @@ class Sample extends React.Component {
         * `config` |_object_| - Google API config parameters used to init the modal
             (for more info please visit [Google developers page](https://developers.google.com/identity/sign-in/web/build-button))
         * `btn` |_element_| - if you would like to insert custom button for google login include it here
-        * `onLoginSuccess` |_function_| - login success callback
-        * `onLoginFail` |_function_| - login fail callback
+        * `onLoginSuccess` |_function(method, response)_| - login success callback. It returns _method_ which will be 'google'
+            and login success response
+        * `onLoginFail` |_function(method, response)_| - login fail callback. It returns _method_ which will be 'google'
+            and login fail response
         * `label` |_string_ or _element_| - text inside Google button
     
-* `form` |_object_| - object of custom login/register form you may include in popup
-    * `onLogin` |_function_| - function executing when user click 'sign in' button
-    * `onRegister` |_function_| - function executing when user click 'sign up' button
-    * `loginContainerClass` |_string_| - class of login form container
-    * `registerContainerClass` |_string_| - class of register form container
+* `registerError` |_object_| - register error message object
+    * `containerClass` |_string_| - register error container custom class
+    * `label` |_string_ or _element_| - text of failed register message
     
-    * `loginBtn` - |_object_| - login button
-        * `buttonClass` |_string_| - class of login button
-        * `label` |_string_ or _element_| - text inside login button
-        
-    * `registerBtn` - |_object_| - register button
-        * `buttonClass` |_string_| - class of login button
-        * `label` |_string_ or _element_| - text inside login button
-        
-    * `loginInputs` |_array_| - Array of objects. Every each of them represents single login input field 
-        * `containerClass` |_string_| - class of input wrap
-        * `type` |_string_| - HTML type of input (email, password, text, number etc.)
-        * `inputClass` |_string_| - class of the input
-        * `id` |_string_| - input's id
-        * `name` |_string_| - input's name
-        * `placeholder` |_string_| - input's placeholder
-        * `label` |_string_ or _element_| - label of the input
-        
-    * `registerInputs` |_array_| - Array of objects. Every each of them represents single register input field
-        * `containerClass` |_string_| - class of input wrap
-        * `type` |_string_| - HTML type of input (email, password, text, number etc.)
-        * `inputClass` |_string_| - class of the input
-        * `id` |_string_| - input's id
-        * `name` |_string_| - input's name
-        * `placeholder` |_string_| - input's placeholder
-        * `label` |_string_ or _element_| - label of the input
+* `separator` |_object_| - object of separator which sits between social login buttons and custom form
+    * `containerClass` |_string_| - separator custom class
+    * `label` |_string_ or _element_| - text of separator
+    
+* `tabs` |_object_| - sign in / sign up tabs object
+    * `containerClass` |_string_| - tabs container custom class
+    * `onChange` |_function_| - callback which fires after the change of a tab
+    * `loginLabel` |_string_| - text of login label
+    * `registerLabel` |_string_| - text of register label
+    
+    
+### Notes
+
+**Social buttons API**
+
+Both Facebook and Google instances are initialized the first time you open popup modal. We decided to take such an attitude
+to save some of the precious loading time when the user enters the website.
+
+After the initialization is complete you have an access to:
+
+* **Facebook instance** - `window.FB`
+* **Google instance** - `window.gapi`
+
     
 
 ### Development
-Want to run demos locally
+If you would like to run demos locally
 
 ```bash
-git clone https://github.com/akiran/react-slick
+git clone https://github.com/thebeaverhead/react-modal-login
 npm install
 npm start
-open http://localhost:8080
 ```
