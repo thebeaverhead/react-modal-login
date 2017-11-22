@@ -43,10 +43,10 @@
   "scripts": {
     "watch-css": "less-watch-compiler src/less ./demo style.less",
     "build-css": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" ./src/less/style.less ./src/style.min.css",
-    "build-babel": "browserify ./src/react-modal-login.js -v -t babelify -o ./src/react-modal-login-compiled.js && babel ./src/react-modal-login-compiled.js -v -o ./src/react-modal-login-compiled.js",
+    "build-babel": "babel ./src/react-modal-login.js -v -o ./src/react-modal-login-compiled.js",
     "build-js": "browserify ./src/react-modal-login-compiled.js -g [ envify --NODE_ENV production ] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > ./src/react-modal-login-compiled.min.js",
     "build-dev": "node_modules/.bin/watchify --poll=500 ./demo/es/index.js -v -t babelify -p livereactload -o ./demo/bundle-compiled.js",
-    "build-prod": "npm-run-all -s build-css build-babel build-js",
+    "build-prod": "npm-run-all -s build-css build-babel",
     "start": "concurrently -k \"npm run build-dev\" \"npm run watch-css\""
   },
   "author": "The Beaverhead",

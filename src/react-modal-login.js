@@ -119,7 +119,7 @@ export default class ReactModalLogin extends React.Component {
 
       };
       ((d, s, id) => {
-        var js, fjs = d.getElementsByTagName(s)[0];
+        let js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {
           return;
         }
@@ -140,7 +140,7 @@ export default class ReactModalLogin extends React.Component {
   initGoogleConnect() {
 
     (() => {
-      var e = document.createElement("script");
+      let e = document.createElement("script");
       e.type = "text/javascript";
       e.async = true;
       e.onload = () => {
@@ -155,7 +155,7 @@ export default class ReactModalLogin extends React.Component {
       };
 
       e.src = "https://apis.google.com/js/platform.js";
-      var t = document.getElementsByTagName("script")[0];
+      let t = document.getElementsByTagName("script")[0];
       t.parentNode.insertBefore(e, t);
     })();
 
@@ -379,7 +379,7 @@ export default class ReactModalLogin extends React.Component {
       </div>
     )
   }
-};
+}
 
 
 ReactModalLogin.defaultProps = {

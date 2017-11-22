@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactModalLogin from '../../../src/react-modal-login';
+import ReactModalLogin from '../../../src/react-modal-login-compiled';
 
 import {facebookConfig, googleConfig} from "../social-config";
 
