@@ -1,8 +1,8 @@
 {
   "name": "react-modal-login",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A highly customizable react login modal with social buttons",
-  "main": "src/react-modal-login-compiled.min.js",
+  "main": "./src/react-modal-login-compiled.js",
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
