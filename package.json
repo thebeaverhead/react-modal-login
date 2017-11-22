@@ -1,6 +1,6 @@
 {
   "name": "react-modal-login",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A highly customizable react login modal with social buttons",
   "main": "src/react-modal-login-compiled.min.js",
   "dependencies": {
@@ -14,11 +14,10 @@
     "less": "^2.7.2",
     "less-plugin-clean-css": "^1.5.1",
     "less-watch-compiler": "^1.8.0",
-    "material-components-web": "^0.23.0",
     "object-assign": "^4.1.1",
     "prop-types": "^15.6.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
     "react-proxy": "^1.1.8",
     "reactify": "^1.1.1"
   },
@@ -44,7 +43,7 @@
   "scripts": {
     "watch-css": "less-watch-compiler src/less ./demo style.less",
     "build-css": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" ./src/less/style.less ./src/style.min.css",
-    "build-babel": "browserify ./demo/es/index.js -v -t babelify -o ./src/react-modal-login-compiled.js && babel ./src/react-modal-login-compiled.js -v -o ./src/react-modal-login-compiled.js",
+    "build-babel": "browserify ./src/react-modal-login.js -v -t babelify -o ./src/react-modal-login-compiled.js && babel ./src/react-modal-login-compiled.js -v -o ./src/react-modal-login-compiled.js",
     "build-js": "browserify ./src/react-modal-login-compiled.js -g [ envify --NODE_ENV production ] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > ./src/react-modal-login-compiled.min.js",
     "build-dev": "node_modules/.bin/watchify --poll=500 ./demo/es/index.js -v -t babelify -p livereactload -o ./demo/bundle-compiled.js",
     "build-prod": "npm-run-all -s build-css build-babel build-js",

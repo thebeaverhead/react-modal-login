@@ -14,6 +14,7 @@ export default class Sample extends React.Component {
       loading: false,
       error: null
     };
+    console.log(ReactModalLogin);
 
   }
 
