@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactModalLogin from '../../../src/react-modal-login-compiled';
+import ReactModalLogin from '../../../src/react-modal-login';
 
 import {facebookConfig, googleConfig} from "../social-config";
 
@@ -14,7 +14,6 @@ export default class Sample extends React.Component {
       loading: false,
       error: null
     };
-    console.log(ReactModalLogin);
 
   }
 

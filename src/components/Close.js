@@ -1,5 +1,5 @@
 /**
- * Created by piotr.pozniak@thebeaverhead.com on 10/07/2017.
+ * Created by meller.olaf@gmail.com on 11/22/2017.
  */
 
 import React from "react";
