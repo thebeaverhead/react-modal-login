@@ -2,7 +2,7 @@
   "name": "react-modal-login",
   "version": "1.0.0",
   "description": "A highly customizable react login modal with social buttons",
-  "main": "src/social-modal-login.js",
+  "main": "src/react-modal-login-compiled.min.js",
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
@@ -17,8 +17,8 @@
     "material-components-web": "^0.23.0",
     "object-assign": "^4.1.1",
     "prop-types": "^15.6.0",
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "react-proxy": "^1.1.8",
     "reactify": "^1.1.1"
   },
@@ -42,11 +42,11 @@
     "watchify": "^3.9.0"
   },
   "scripts": {
-    "watch-css": "less-watch-compiler src/less ./webroot style.less",
-    "build-css": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" ./less/style.less ./webroot/style.css",
-    "build-babel": "browserify ./es/index.js -v -t babelify -o ./webroot/bundle.js && babel ./webroot/bundle.js -v -o ./webroot/bundle-compiled.js --source-maps",
-    "build-js": "browserify ./webroot/bundle-compiled.js -g [ envify --NODE_ENV production ] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > ./webroot/bundle-compiled.min.js",
-    "build-dev": "node_modules/.bin/watchify --poll=500 ./es/index.js -v -t babelify -p livereactload -o ./webroot/bundle.js",
+    "watch-css": "less-watch-compiler src/less ./demo style.less",
+    "build-css": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" ./src/less/style.less ./src/style.min.css",
+    "build-babel": "browserify ./demo/es/index.js -v -t babelify -o ./src/react-modal-login-compiled.js && babel ./src/react-modal-login-compiled.js -v -o ./src/react-modal-login-compiled.js",
+    "build-js": "browserify ./src/react-modal-login-compiled.js -g [ envify --NODE_ENV production ] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > ./src/react-modal-login-compiled.min.js",
+    "build-dev": "node_modules/.bin/watchify --poll=500 ./demo/es/index.js -v -t babelify -p livereactload -o ./demo/bundle-compiled.js",
     "build-prod": "npm-run-all -s build-css build-babel build-js",
     "start": "concurrently -k \"npm run build-dev\" \"npm run watch-css\""
   },
