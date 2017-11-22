@@ -1,14 +1,15 @@
 const facebook = {
-  id: '1154387944704787',
+  appId: '1154387944704787',
   cookie: true,
   xfbml: true,
-  version: 'v2.10'
+  version: 'v2.11',
+  scope: 'email'
 };
 
 export const facebookConfig = facebook;
 
 const google = {
-  id: "387761412145-1sgp3nengl5boe1d7g4q3vkbt0f94lrc.apps.googleusercontent.com",
+  client_id: "387761412145-1sgp3nengl5boe1d7g4q3vkbt0f94lrc.apps.googleusercontent.com",
   scope: "https://www.googleapis.com/auth/plus.login"
 };
 

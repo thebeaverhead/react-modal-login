@@ -31,10 +31,11 @@ For the sake of keeping everything in order, we demonstrate how to use it in
 **Typical Facebook configuration**
 ```js
 const facebook = {
-  id: 'YOUR FB APP ID GOES HERE',
+  appId: 'YOUR FB APP ID GOES HERE',
   cookie: true,
   xfbml: true,
-  version: 'v2.10'
+  version: 'v2.11',
+  scope: 'email'
 };
 
 export const facebookConfig = facebook;
@@ -43,7 +44,7 @@ export const facebookConfig = facebook;
 **Typical Google configuration**
 ```js
 const google = {
-  id: 'YOUR GOOGLE APP ID GOES HERE',
+  client_id: 'YOUR GOOGLE APP ID GOES HERE',
   scope: "https://www.googleapis.com/auth/plus.login"
 };
 
@@ -266,7 +267,8 @@ class Sample extends React.Component {
     * `facebook` - |_object_| - facebook button object
         * `btnClass` |_string_| - button custom class
         * `config` |_object_| - Facebook API config parameters used to init the modal
-            (for more info please visit [Facebook developers page](https://developers.facebook.com/docs/facebook-login/review))
+            (for more info please see [Facebook API config docs](https://developers.facebook.com/docs/javascript/reference/FB.init/v2.11))
+            and [Facebook API scope docs](https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11))
         * `btn` |_element_| - if you would like to insert custom button for facebook login include it here
         * `onLoginSuccess` |_function(method, response)_| - login success callback. It returns _method_ which will be 'facebook'
             and login success response
@@ -277,7 +279,7 @@ class Sample extends React.Component {
     * `google` - |_object_| - google button object
         * `btnClass` |_string_| - button custom class
         * `config` |_object_| - Google API config parameters used to init the modal
-            (for more info please visit [Google developers page](https://developers.google.com/identity/sign-in/web/build-button))
+            (for more info please visit [Google developers page](https://developers.google.com/identity/sign-in/web/reference#gapiauth2clientconfig))
         * `btn` |_element_| - if you would like to insert custom button for google login include it here
         * `onLoginSuccess` |_function(method, response)_| - login success callback. It returns _method_ which will be 'google'
             and login success response

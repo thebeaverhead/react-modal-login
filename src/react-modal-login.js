@@ -100,19 +100,6 @@ export default class ReactModalLogin extends React.Component {
         this.props.tabs.onChange();
       }
 
-      // let loginError = document.getElementById("loginError");
-      // let registerError = document.getElementById("registerError");
-      // let socialRegisterError = document.getElementById("socialRegisterError");
-      //
-      // if (loginError) {
-      //   loginError.innerHTML = '';
-      // }
-      // if (registerError) {
-      //   registerError.innerHTML = '';
-      // }
-      // if (socialRegisterError) {
-      //   socialRegisterError.innerHTML = '';
-      // }
     }
   }
 
@@ -125,10 +112,7 @@ export default class ReactModalLogin extends React.Component {
 
       window.fbAsyncInit = () => {
         FB.init({
-          appId: this.props.providers.facebook.config.id,
-          cookie: this.props.providers.facebook.config.cookie,
-          xfbml: this.props.providers.facebook.config.xfbml,
-          version: this.props.providers.facebook.config.version
+          ...this.props.providers.facebook.config
         });
 
         FB.AppEvents.logPageView();
@@ -164,7 +148,7 @@ export default class ReactModalLogin extends React.Component {
         window.gapi.load('auth2', () => {
 
           window.gapi.auth2.init({
-            client_id: this.props.providers.google.config.id,
+            ...this.props.providers.google.config
           });
           this.props.finishLoading();
         })
@@ -268,6 +252,7 @@ export default class ReactModalLogin extends React.Component {
             onFail={facebook.onLoginFail ? facebook.onLoginFail : null}
             inactive={this.props.loading ? this.props.loading : false}
             label={facebook.label ? facebook.label : "Continue with Facebook"}
+            scope={facebook.config.scope}
           />
         : <FacebookLoginButton
             btnClass={facebook.btnClass ? facebook.btnClass : "RML-facebook-login-button"}
@@ -276,6 +261,7 @@ export default class ReactModalLogin extends React.Component {
             onFail={facebook.onLoginFail ? facebook.onLoginFail : null}
             inactive={this.props.loading ? this.props.loading : false}
             label={facebook.label ? facebook.label : "Continue with Facebook"}
+            scope={facebook.config.scope}
         />;
     }
 

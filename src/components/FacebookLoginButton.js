@@ -29,7 +29,7 @@ export default class FacebookLoginButton extends React.Component {
 
         this.props.onFail('facebook', response);
       }
-    }, {scope: 'email'});
+    }, {scope: this.props.scope});
   }
 
   /**
