@@ -267,7 +267,7 @@ class Sample extends React.Component {
     * `facebook` - |_object_| - facebook button object
         * `btnClass` |_string_| - button custom class
         * `config` |_object_| - Facebook API config parameters used to init the modal
-            (for more info please see [Facebook API config docs](https://developers.facebook.com/docs/javascript/reference/FB.init/v2.11))
+            (for more info please see [Facebook API config docs](https://developers.facebook.com/docs/javascript/reference/FB.init/v2.11)
             and [Facebook API scope docs](https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11))
         * `btn` |_element_| - if you would like to insert custom button for facebook login include it here
         * `onLoginSuccess` |_function(method, response)_| - login success callback. It returns _method_ which will be 'facebook'
