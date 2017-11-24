@@ -317,10 +317,43 @@ After the initialization is complete you have an access to:
     
 
 ### Development
-If you would like to run demos locally
+
+**Playing with demos**
+
+If you would like to run demos locally:
 
 ```bash
 git clone https://github.com/thebeaverhead/react-modal-login
 npm install
 npm start
 ```
+
+and then open _http://localhost:8080_.
+
+if you're using docker you need to pass -p 8080:8080 parameter to your `docker run` command.
+
+All the source files of the component are in the _/src_ path.
+
+Demo pages are located in _/demo_ folder. When you type `npm start` webpack-dev-server starts watching _/demo/es/index.js_
+and then compiles all the dependencies you require inside it (may be *.js, *.less or *.css) to _/demo/bundle.js_ which is
+then included in _/demo/index.html_ and served in _http://localhost:8080_.
+
+You may change the port from 8080 to something different in _webpack.dev.config.js_ file.
+
+There is a hot reloader so you don't really need to reload the page manually since all the changes *.js and *.less files
+cause it to happen automatically.
+
+**Production build**
+
+To build a production package you need to type:
+
+```bash
+git clone https://github.com/thebeaverhead/react-modal-login
+npm install
+npm run build-prod
+```
+
+Then all the required *.less and *.js files from _/src_ path are compiled into _/dist_ folder.
+
+By default styles are bundled into _/dist/react-modal-login.js_ but you may change that behaviour in a
+_webpack.prod.config.js_ config file and use _/dist/react-modal-login.min.css_ instead.
