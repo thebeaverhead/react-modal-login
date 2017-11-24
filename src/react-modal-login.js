@@ -1,7 +1,6 @@
 /**
  * Created by meller.olaf@gmail.com on 11/22/2017.
  */
-
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -17,6 +16,8 @@ import Separator from "./components/Separator";
 import Loader from "./components/Loader";
 
 import FormWrap from "./components/FormWrap";
+
+require('./less/style.less');
 
 
 export default class ReactModalLogin extends React.Component {
