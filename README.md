@@ -7,7 +7,7 @@ Since we intend to target the module for developers, we decided to offer bigger 
 This requires some functions to be created in a parent component. Don't worry though. We will cover that topic further
 in this manual.
 
-
+![Demo](http://developers.thebeaverhead.com/images/demo.gif "Example usage")
 
 ### Installation
 
