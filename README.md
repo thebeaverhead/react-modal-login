@@ -206,6 +206,8 @@ class Sample extends React.Component {
 
 * `mainWrapClass` |_string_| - custom class of the whole component's wrapper (which contains both overlay and the popup itself)
 
+* `mainWrapId` |_string_| - id of the whole component's wrapper
+
 * `onAfterCloseModal` |_function_| - action executing just after the closing of modal
 
 * `onBeforeCloseModal` |_function_| - action executing just before the closing of modal

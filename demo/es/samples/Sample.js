@@ -132,15 +132,6 @@ export default class Sample extends React.Component {
           tabs={{
             onChange: this.onTabsChange.bind(this)
           }}
-          loginError={{
-            label: "Couldn't sign in, please try again."
-          }}
-          registerError={{
-            label: "Couldn't sign up, please try again."
-          }}
-          socialRegisterError={{
-            label: "Couldn't sign up, please try again."
-          }}
           startLoading={this.startLoading.bind(this)}
           finishLoading={this.finishLoading.bind(this)}
           form={{

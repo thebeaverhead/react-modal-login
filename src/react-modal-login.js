@@ -351,7 +351,9 @@ export default class ReactModalLogin extends React.Component {
       : null;
 
     return (
-      <div className={(this.props.mainWrapClass ? this.props.mainWrapClass : "RML-login-modal-wrap ") +
+      <div
+        id={this.props.mainWrapId ? this.props.mainWrapId : ""}
+        className={(this.props.mainWrapClass ? this.props.mainWrapClass : "RML-login-modal-wrap ") +
         (this.props.visible ? "" : "hidden")}
       >
         <div
@@ -388,11 +390,14 @@ ReactModalLogin.defaultProps = {
   tabs: {},
   providers: {},
   loader: {},
-  additionalWrap: {}
+  additionalWrap: {},
+  loginError: {},
+  registerError: {}
 };
 
 ReactModalLogin.propTypes = {
   mainWrapClass: PropTypes.string,
+  mainWrapId: PropTypes.string,
 
   visible: PropTypes.bool.isRequired,
   onCloseModal: PropTypes.func.isRequired,
