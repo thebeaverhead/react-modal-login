@@ -230,6 +230,8 @@ class Sample extends React.Component {
     * `onRegister` |_function_| - function executing when user click 'sign up' button
     * `loginContainerClass` |_string_| - custom class of login form container
     * `registerContainerClass` |_string_| - custom class of register form container
+    * `bottomLoginContainer` |_element_| - custom container below login inputs group
+    * `bottomRegisterContainer` |_element_| - custom container below register inputs group
     
     * `loginBtn` - |_object_| - login button
         * `buttonClass` |_string_| - custom class of login button

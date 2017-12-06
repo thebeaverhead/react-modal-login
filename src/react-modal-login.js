@@ -57,10 +57,10 @@ export default class ReactModalLogin extends React.Component {
       }
       if (isEnter) {
 
-        if (this.state.register && form && form.onRegister) {
-          form.onRegister();
-        } else if (!this.state.register && form && form.onLogin) {
-          form.onLogin();
+        if (this.state.register && this.props.form && this.props.form.onRegister) {
+          this.props.form.onRegister();
+        } else if (!this.state.register && this.props.form && this.props.form.onLogin) {
+          this.props.form.onLogin();
         }
       }
   }
@@ -330,6 +330,7 @@ export default class ReactModalLogin extends React.Component {
         />
       : null;
 
+
     const formWrap = this.props.form && !this.props.form.disabled
       ? <FormWrap
           register={this.state.register}
@@ -490,6 +491,9 @@ ReactModalLogin.propTypes = {
   form: PropTypes.shape({
     onLogin: PropTypes.func,
     onRegister: PropTypes.func,
+    bottomLoginContainer: PropTypes.element,
+    bottomRegisterContainer: PropTypes.element,
+
     registerContainerClass: PropTypes.string,
     loginContainerClass: PropTypes.string,
     loginBtn: PropTypes.shape({

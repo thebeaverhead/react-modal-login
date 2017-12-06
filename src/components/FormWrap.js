@@ -43,11 +43,11 @@ export default class FormWrap extends React.Component {
     const formLoginInputs = formProps.loginInputs
       ? formProps.loginInputs.map((input, index) => {
         return (
-          <div className={input.containerClass} key={index}>
+          <div className={input.containerClass ? input.containerClass : "RML-form-group"} key={index}>
             <label htmlFor={input.id}>{input.label}</label>
             <input
               type={input.type}
-              className={input.inputClass}
+              className={input.inputClass ? input.inputClass : "RML-form-control"}
               id={input.id}
               name={input.name}
               placeholder={input.placeholder}
@@ -60,11 +60,11 @@ export default class FormWrap extends React.Component {
     const formRegisterInputs = formProps.registerInputs
       ? formProps.registerInputs.map((input, index) => {
         return (
-          <div className={input.containerClass} key={index}>
+          <div className={input.containerClass ? input.containerClass : "RML-form-group"} key={index}>
             <label htmlFor={input.id}>{input.label}</label>
             <input
               type={input.type}
-              className={input.inputClass}
+              className={input.inputClass ? input.inputClass : "RML-form-control"}
               id={input.id}
               name={input.name}
               placeholder={input.placeholder}
@@ -78,6 +78,7 @@ export default class FormWrap extends React.Component {
       ? <div className={formProps.registerContainerClass ? formProps.registerContainerClass : "RML-login-modal-form"}>
 
           {formRegisterInputs}
+          {formProps.bottomRegisterContainer}
           {this.props.errorWrap}
           {registerBtn}
           {this.props.loader}
@@ -87,6 +88,7 @@ export default class FormWrap extends React.Component {
       : <div className={formProps.loginContainerClass ? formProps.loginContainerClass : "RML-login-modal-form"}>
 
           {formLoginInputs}
+          {formProps.bottomLoginContainer}
           {this.props.errorWrap}
           {loginBtn}
           {this.props.loader}
