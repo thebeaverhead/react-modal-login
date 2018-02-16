@@ -63,11 +63,9 @@
   .keyframes(fade-in;
     {
       0% {
-        visibility: hidden;
         opacity: 0;
       }
       75% {
-        visibility: visible;
         opacity: 0;
       }
       100% {
@@ -114,6 +112,7 @@
   z-index: 1;
   background-color: @color-p1-darker;
   opacity: 0.6;
+  left: 0;
 }
 
 .RML-login-modal-box {
@@ -134,6 +133,7 @@
 
   .RML-login-modal-form {
     //padding: 0 30px 20px 30px;
+    opacity: 1;
 
     button {
       .transition(background-color .5s);
