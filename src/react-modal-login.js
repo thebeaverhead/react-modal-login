@@ -338,6 +338,7 @@ export default class ReactModalLogin extends React.Component {
           inactive={this.props.loading}
           loader={loader}
           errorWrap={errorWrap}
+          visible={this.props.visible}
         />
       : null;
 
