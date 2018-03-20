@@ -14,6 +14,15 @@ export default class FormWrap extends React.Component {
     super(props);
   }
 
+  componentWillReceiveProps(nextProps) {
+
+    if (!this.props.visible && nextProps.visible ) {
+      for (const ref in this.refs) {
+        this.refs[ref].value = "";
+      }
+    }
+  }
+
   /**
    *
    * @constructor
@@ -49,7 +58,10 @@ export default class FormWrap extends React.Component {
               type={input.type}
               className={input.inputClass ? input.inputClass : "RML-form-control"}
               id={input.id}
+              key={input.id}
               name={input.name}
+              ref={"formLoginInput-" + index}
+              defaultValue=""
               placeholder={input.placeholder}
             />
           </div>
@@ -67,6 +79,8 @@ export default class FormWrap extends React.Component {
               className={input.inputClass ? input.inputClass : "RML-form-control"}
               id={input.id}
               name={input.name}
+              ref={"formRegisterInput-" + index}
+              defaultValue=""
               placeholder={input.placeholder}
             />
           </div>
