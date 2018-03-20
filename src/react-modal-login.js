@@ -26,11 +26,20 @@ export default class ReactModalLogin extends React.Component {
     super(props);
 
     this.state = {
-      register: false,
+      currentTab: this.props.initialTab ? this.props.initialTab : "login",
     };
 
     this.keyHandler = this.keyHandler.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    if (!this.props.visible && nextProps.visible ) {
+      this.setState({
+        currentTab: this.props.initialTab ? this.props.initialTab : "login",
+      })
+    }
   }
 
   /**
@@ -57,9 +66,9 @@ export default class ReactModalLogin extends React.Component {
       }
       if (isEnter) {
 
-        if (this.state.register && this.props.form && this.props.form.onRegister) {
+        if (this.state.currentTab === "register" && this.props.form && this.props.form.onRegister) {
           this.props.form.onRegister();
-        } else if (!this.state.register && this.props.form && this.props.form.onLogin) {
+        } else if (this.state.currentTab === "login" && this.props.form && this.props.form.onLogin) {
           this.props.form.onLogin();
         }
       }
@@ -95,7 +104,7 @@ export default class ReactModalLogin extends React.Component {
       document.addEventListener("keydown", this.keyHandler);
     }
 
-    if (prevState.register !== this.state.register) {
+    if (prevState.currentTab !== this.state.currentTab) {
 
       if (this.props.tabs.onChange) {
         this.props.tabs.onChange();
@@ -172,7 +181,7 @@ export default class ReactModalLogin extends React.Component {
     }
 
     this.setState({
-      register: false
+      currentTab: "login"
     }, () => {
 
       if (this.props.tabs && this.props.tabs.onLoginClickAfterTransition) {
@@ -191,7 +200,7 @@ export default class ReactModalLogin extends React.Component {
     }
 
     this.setState({
-      register: true
+      currentTab: "register"
     }, () => {
 
       if (this.props.tabs && this.props.tabs.onRegisterClickAfterTransition) {
@@ -229,7 +238,7 @@ export default class ReactModalLogin extends React.Component {
           inactive={this.props.loading ? this.props.loading : false}
           loginClick={this.tabsLoginClick.bind(this)}
           registerClick={this.tabsRegisterClick.bind(this)}
-          registerActive={this.state.register}
+          currentTab={this.state.currentTab}
           loginLabel={this.props.tabs.loginLabel ? this.props.tabs.loginLabel : "Sign in"}
           registerLabel={this.props.tabs.registerLabel ? this.props.tabs.registerLabel : "Sign up"}
         />
@@ -309,9 +318,16 @@ export default class ReactModalLogin extends React.Component {
     let errorWrap = null;
 
     if (this.props.error) {
-      errorWrap = this.state.register
-        ? registerError
-        : loginError;
+      switch (this.state.currentTab) {
+
+        case "register":
+          errorWrap = registerError;
+        break;
+
+        case "login":
+          errorWrap = loginError;
+        break;
+      }
     }
 
     const separator = this.props.separator
@@ -333,11 +349,12 @@ export default class ReactModalLogin extends React.Component {
 
     const formWrap = this.props.form && !this.props.form.disabled
       ? <FormWrap
-          register={this.state.register}
+          currentTab={this.state.currentTab}
           form={this.props.form}
           inactive={this.props.loading}
           loader={loader}
           errorWrap={errorWrap}
+          visible={this.props.visible}
         />
       : null;
 
@@ -400,6 +417,7 @@ ReactModalLogin.propTypes = {
   mainWrapClass: PropTypes.string,
   mainWrapId: PropTypes.string,
 
+  initialTab: PropTypes.string,
   visible: PropTypes.bool.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   onBeforeCloseModal: PropTypes.func,
