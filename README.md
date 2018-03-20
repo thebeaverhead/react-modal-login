@@ -208,6 +208,8 @@ class Sample extends React.Component {
 
 * `mainWrapId` |_string_| - id of the whole component's wrapper
 
+* `initialTab` |_string_| - (default _"login"_) initial tab we'd like to mark as opened - "login" or "register"
+
 * `onAfterCloseModal` |_function_| - action executing just after the closing of modal
 
 * `onBeforeCloseModal` |_function_| - action executing just before the closing of modal

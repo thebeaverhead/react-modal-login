@@ -88,30 +88,40 @@ export default class FormWrap extends React.Component {
       })
       : null;
 
-    const formWrap = this.props.register
-      ? <div className={formProps.registerContainerClass ? formProps.registerContainerClass : "RML-login-modal-form"}>
+    let formWrap = null;
 
-          {formRegisterInputs}
-          {formProps.bottomRegisterContainer}
-          {this.props.errorWrap}
-          {registerBtn}
-          {this.props.loader}
+    switch (this.props.currentTab) {
+      case "register":
+        formWrap = (
+          <div className={formProps.registerContainerClass ? formProps.registerContainerClass : "RML-login-modal-form"}>
 
-          <div className="clearfix" />
-        </div>
-      : <div className={formProps.loginContainerClass ? formProps.loginContainerClass : "RML-login-modal-form"}>
+            {formRegisterInputs}
+            {formProps.bottomRegisterContainer}
+            {this.props.errorWrap}
+            {registerBtn}
+            {this.props.loader}
 
-          {formLoginInputs}
-          {formProps.bottomLoginContainer}
-          {this.props.errorWrap}
-          {loginBtn}
-          {this.props.loader}
+            <div className="clearfix" />
+          </div>
+        );
+      break;
 
-        <div className="clearfix" />
-      </div>;
+      case "login":
+        formWrap = (
+          <div className={formProps.loginContainerClass ? formProps.loginContainerClass : "RML-login-modal-form"}>
 
-    return (
-      formWrap
-    )
+            {formLoginInputs}
+            {formProps.bottomLoginContainer}
+            {this.props.errorWrap}
+            {loginBtn}
+            {this.props.loader}
+
+            <div className="clearfix" />
+          </div>
+        );
+      break;
+    }
+
+    return formWrap;
   }
 };

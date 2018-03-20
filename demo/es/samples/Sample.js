@@ -12,7 +12,8 @@ export default class Sample extends React.Component {
       showModal: false,
       loggedIn: null,
       loading: false,
-      error: null
+      error: null,
+      initialTab: null
     };
 
   }
@@ -54,9 +55,13 @@ export default class Sample extends React.Component {
     }
   }
 
-  openModal() {
+  openModal(initialTab) {
     this.setState({
-      showModal: true,
+      initialTab: initialTab
+    }, () => {
+      this.setState({
+        showModal: true,
+      })
     });
   }
 
@@ -119,15 +124,23 @@ export default class Sample extends React.Component {
 
         <button
           className="RML-btn"
-          onClick={() => this.openModal()}
+          onClick={() => this.openModal('login')}
         >
-          Open Modal
+          Login
+        </button>
+
+        <button
+          className="RML-btn"
+          onClick={() => this.openModal('register')}
+        >
+          Register
         </button>
 
         <ReactModalLogin
           visible={this.state.showModal}
           onCloseModal={this.closeModal.bind(this)}
           loading={isLoading}
+          initialTab={this.state.initialTab}
           error={this.state.error}
           tabs={{
             onChange: this.onTabsChange.bind(this)
