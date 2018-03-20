@@ -9,8 +9,7 @@ import GoogleLoginButton from "./components/GoogleLoginButton";
 import Tabs from "./components/Tabs";
 import CloseBtn from "./components/Close";
 
-import LoginError from "./components/LoginError";
-import RegisterError from "./components/RegisterError";
+import SubmitError from "./components/SubmitError";
 
 import Separator from "./components/Separator";
 import Loader from "./components/Loader";
@@ -20,7 +19,7 @@ import FormWrap from "./components/FormWrap";
 require('./less/style.less');
 
 
-export default class ReactModalLogin extends React.Component {
+class ReactModalLogin extends React.Component {
 
   constructor(props) {
     super(props);
@@ -209,6 +208,13 @@ export default class ReactModalLogin extends React.Component {
     })
   }
 
+  recoverPasswordAnchorClick() {
+
+    this.setState({
+      currentTab: "recoverPassword"
+    })
+  }
+
   /**
    *
    */
@@ -234,7 +240,11 @@ export default class ReactModalLogin extends React.Component {
 
     const tabs = this.props.tabs
       ? <Tabs
-          containerClass={this.props.tabs.containerClass ? this.props.tabs.containerClass : "RML-login-modal-mode"}
+          containerClass={
+            this.props.tabs.containerClass
+              ? this.props.tabs.containerClass
+              : "RML-login-modal-mode"
+          }
           inactive={this.props.loading ? this.props.loading : false}
           loginClick={this.tabsLoginClick.bind(this)}
           registerClick={this.tabsRegisterClick.bind(this)}
@@ -246,14 +256,18 @@ export default class ReactModalLogin extends React.Component {
 
     const closeBtn = this.props.closeBtn
       ? <CloseBtn
-          containerClass={this.props.closeBtn.containerClass ? this.props.closeBtn.containerClass : "RML-login-modal-close"}
+          containerClass={
+            this.props.closeBtn.containerClass
+              ? this.props.closeBtn.containerClass
+              : "RML-login-modal-close"
+          }
           click={() => this.onCloseModal()}
         />
       : null;
 
     let facebookButton = null;
 
-    if (this.props.providers && this.props.providers.facebook) {
+    if (this.props.providers && this.props.providers.facebook && this.state.currentTab !== "recoverPassword") {
       facebookButton = this.props.providers.facebook.btn
         ? <facebook.btn
             btnClass={facebook.btnClass ? facebook.btnClass : "RML-facebook-login-button"}
@@ -277,7 +291,7 @@ export default class ReactModalLogin extends React.Component {
 
     let googleButton = null;
 
-    if (this.props.providers && this.props.providers.google) {
+    if (this.props.providers && this.props.providers.google && this.state.currentTab !== "recoverPassword") {
       googleButton = this.props.providers.google.btn
         ? <google.btn
             btnClass={google.btnClass ? google.btnClass : "RML-google-login-button"}
@@ -297,42 +311,56 @@ export default class ReactModalLogin extends React.Component {
         />;
     }
 
-    const loginError = this.props.error
-      ? <LoginError
-          containerClass={this.props.loginError.containerClass
-            ? this.props.loginError.containerClass : "RML-login-modal-error--login"}
-          label={this.props.loginError.label
-            ? this.props.loginError.label : "Unable to login. Please try again later"}
-        />
-      : null;
-
-    const registerError = this.props.error
-      ? <RegisterError
-          containerClass={this.props.registerError.containerClass
-            ? this.props.registerError.containerClass : "RML-login-modal-error--register"}
-          label={this.props.registerError.label
-            ? this.props.registerError.label : "Unable to register. Please try again later"}
-        />
-      : null;
-
-    let errorWrap = null;
+    let errorClass = null;
+    let errorLabel = "";
 
     if (this.props.error) {
       switch (this.state.currentTab) {
 
-        case "register":
-          errorWrap = registerError;
+        case "login":
+          errorClass = this.props.loginError.containerClass
+            ? this.props.loginError.containerClass
+            : "RML-login-modal-error";
+          errorLabel = this.props.loginError.label
+            ? this.props.loginError.label
+            : "Unable to login. Please try again later";
         break;
 
-        case "login":
-          errorWrap = loginError;
+        case "register":
+          errorClass = this.props.registerError.containerClass
+            ? this.props.registerError.containerClass
+            : "RML-login-modal-error";
+          errorLabel = this.props.registerError.label
+            ? this.props.registerError.label
+            : "Unable to register. Please try again later";
+        break;
+
+        case "recoverPassword":
+          errorClass = this.props.recoverPasswordError.containerClass
+            ? this.props.recoverPasswordError.containerClass
+            : "RML-login-modal-error";
+          errorLabel = this.props.recoverPasswordError.label
+            ? this.props.recoverPasswordError.label
+            : "Unable to recover password. Please try again later";
         break;
       }
     }
 
-    const separator = this.props.separator
+    const errorWrap = this.props.error
+      ? <SubmitError
+          type={this.state.currentTab}
+          containerClass={errorClass}
+          label={errorLabel}
+        />
+      : null;
+
+    const separator = this.props.separator && this.state.currentTab !== "recoverPassword"
       ? <Separator
-          containerClass={this.props.separator.containerClass ? this.props.separator.containerClass : "RML-social-methods-separator"}
+          containerClass={
+            this.props.separator.containerClass
+              ? this.props.separator.containerClass
+              : "RML-social-methods-separator"
+          }
           label={this.props.separator.label ? this.props.separator.label : "Or"}
         />
       : null;
@@ -340,7 +368,11 @@ export default class ReactModalLogin extends React.Component {
 
     const loader = this.props.loading && !this.props.loader.disabled
       ? <Loader
-          containerClass={this.props.loader.containerClass ? this.props.loader.containerClass : "RML-login-modal-indicator"}
+          containerClass={
+            this.props.loader.containerClass
+              ? this.props.loader.containerClass
+              : "RML-login-modal-indicator"
+          }
           onStartLoading={this.props.startLoading}
           size={24}
         />
@@ -355,13 +387,19 @@ export default class ReactModalLogin extends React.Component {
           loader={loader}
           errorWrap={errorWrap}
           visible={this.props.visible}
+          recoverPasswordAnchorClick={this.recoverPasswordAnchorClick.bind(this)}
+          recoverPasswordSuccessLabel={this.props.form.recoverPasswordSuccessLabel}
         />
       : null;
 
     const additionalWrap = (!this.props.form || this.props.form.disabled) && (!this.props.additionalWrap.disabled)
           && (this.props.loading || this.props.error)
       ? <div
-          className={this.props.additionalWrap.containerClass ? this.props.additionalWrap.containerClass : "RML-login-modal-additional-wrap"}
+          className={
+            this.props.additionalWrap.containerClass
+              ? this.props.additionalWrap.containerClass
+              : "RML-login-modal-additional-wrap"
+          }
         >
           {errorWrap}
           {loader}
@@ -410,7 +448,8 @@ ReactModalLogin.defaultProps = {
   loader: {},
   additionalWrap: {},
   loginError: {},
-  registerError: {}
+  registerError: {},
+  recoverPasswordError: {},
 };
 
 ReactModalLogin.propTypes = {
@@ -439,6 +478,14 @@ ReactModalLogin.propTypes = {
       PropTypes.element,
     ])
   }),
+  recoverPasswordError: PropTypes.shape({
+    containerClass: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+    ])
+  }),
+
   loader: PropTypes.shape({
     disabled: PropTypes.bool,
     containerClass: PropTypes.string,
@@ -509,11 +556,33 @@ ReactModalLogin.propTypes = {
   form: PropTypes.shape({
     onLogin: PropTypes.func,
     onRegister: PropTypes.func,
+    onRecoverPassword: PropTypes.func,
+
     bottomLoginContainer: PropTypes.element,
     bottomRegisterContainer: PropTypes.element,
+    bottomRecoverPasswordContainer: PropTypes.element,
 
     registerContainerClass: PropTypes.string,
     loginContainerClass: PropTypes.string,
+    recoverPasswordContainerClass: PropTypes.string,
+
+    recoverPasswordSuccessLabel: PropTypes.shape({
+      labelClass: PropTypes.string,
+      label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element,
+      ]),
+    }),
+
+    recoverPasswordAnchor: PropTypes.shape({
+      anchorClass: PropTypes.string,
+      inactive: PropTypes.bool,
+      label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element,
+      ]),
+    }),
+
     loginBtn: PropTypes.shape({
       buttonClass: PropTypes.string,
       inactive: PropTypes.bool,
@@ -523,6 +592,14 @@ ReactModalLogin.propTypes = {
       ]),
     }),
     registerBtn: PropTypes.shape({
+      buttonClass: PropTypes.string,
+      inactive: PropTypes.bool,
+      label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element,
+      ]),
+    }),
+    recoverPasswordBtn: PropTypes.shape({
       buttonClass: PropTypes.string,
       inactive: PropTypes.bool,
       label: PropTypes.oneOfType([
@@ -560,6 +637,23 @@ ReactModalLogin.propTypes = {
         ]),
       })
     ),
+    recoverPasswordInputs: PropTypes.arrayOf(
+      PropTypes.shape({
+        containerClass: PropTypes.string,
+        type: PropTypes.string,
+        inputClass: PropTypes.string,
+        id: PropTypes.string,
+        name: PropTypes.string,
+        placeholder: PropTypes.string,
+
+        label: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element,
+        ]),
+      })
+    ),
   })
 
 };
+
+export default ReactModalLogin;

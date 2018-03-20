@@ -230,18 +230,34 @@ class Sample extends React.Component {
 * `form` |_object_| - object of custom login/register form you may include in popup
     * `onLogin` |_function_| - function executing when user click 'sign in' button
     * `onRegister` |_function_| - function executing when user click 'sign up' button
+    * `onRecoverPassword` |_function_| - function executing when user click 'recover password' button
+    
     * `loginContainerClass` |_string_| - custom class of login form container
     * `registerContainerClass` |_string_| - custom class of register form container
+    * `recoverPasswordContainerClass` |_string_| - custom class of password recovery form container
     * `bottomLoginContainer` |_element_| - custom container below login inputs group
     * `bottomRegisterContainer` |_element_| - custom container below register inputs group
+    * `bottomRecoverPasswordContainer` |_element_| - custom container below password recovery inputs group
+     
+    * `recoverPasswordSuccessLabel` - |_object_| - Text being displayed when we successfully recover password
+            * `labelClass` |_string_| - custom class of the text
+            * `label` |_string_ or _element_| - text of the text
     
+    * `recoverPasswordAnchor` - |_object_| - Forgotten password link visible on login tab
+        * `anchorClass` |_string_| - custom class of the link
+        * `label` |_string_ or _element_| - text of the link
+        
     * `loginBtn` - |_object_| - login button
         * `buttonClass` |_string_| - custom class of login button
         * `label` |_string_ or _element_| - text inside login button
         
     * `registerBtn` - |_object_| - register button
-        * `buttonClass` |_string_| - custom class of login button
-        * `label` |_string_ or _element_| - text inside login button
+        * `buttonClass` |_string_| - custom class of register button
+        * `label` |_string_ or _element_| - text inside register button
+        
+    * `recoverPasswordBtn` - |_object_| - recover password button
+        * `buttonClass` |_string_| - custom class of recover password button
+        * `label` |_string_ or _element_| - text inside recover password button
         
     * `loginInputs` |_array_| - Array of objects. Every each of them represents single login input field 
         * `containerClass` |_string_| - custom class of input wrap
@@ -260,15 +276,20 @@ class Sample extends React.Component {
         * `name` |_string_| - input's name
         * `placeholder` |_string_| - input's placeholder
         * `label` |_string_ or _element_| - label of the input
+        
+    * `recoverPasswordInputs` |_array_| - Array of objects. Every each of them represents single recovery password form input field
+        * `containerClass` |_string_| - custom class of input wrap
+        * `type` |_string_| - HTML type of input (email, password, text, number etc.)
+        * `inputClass` |_string_| - custom class of the input
+        * `id` |_string_| - input's id
+        * `name` |_string_| - input's name
+        * `placeholder` |_string_| - input's placeholder
+        * `label` |_string_ or _element_| - label of the input
     
 * `loader` |_object_| - loader svg object
     * `containerClass` |_string_| - loader container custom class
     * `disabled` |_boolean_| - boolean determining if the loader should be disabled
-
-* `loginError` |_object_| - login error message object
-    * `containerClass` |_string_| - login error container custom class
-    * `label` |_string_ or _element_| - text of failed login message
-    
+   
 * `providers` |_object_| - object containing social buttons providers data
     * `facebook` - |_object_| - facebook button object
         * `btnClass` |_string_| - button custom class
@@ -293,9 +314,17 @@ class Sample extends React.Component {
             and login fail response
         * `label` |_string_ or _element_| - text inside Google button
     
+* `loginError` |_object_| - login error message object
+    * `containerClass` |_string_| - login error container custom class
+    * `label` |_string_ or _element_| - text of failed login message
+ 
 * `registerError` |_object_| - register error message object
     * `containerClass` |_string_| - register error container custom class
     * `label` |_string_ or _element_| - text of failed register message
+    
+* `recoverPasswordError` |_object_| - recover password error message object
+    * `containerClass` |_string_| - recover password error container custom class
+    * `label` |_string_ or _element_| - text of failed recover password message
     
 * `separator` |_object_| - object of separator which sits between social login buttons and custom form
     * `containerClass` |_string_| - separator custom class

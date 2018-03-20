@@ -13,7 +13,8 @@ export default class Sample extends React.Component {
       loggedIn: null,
       loading: false,
       error: null,
-      initialTab: null
+      initialTab: null,
+      recoverPasswordSuccess: null,
     };
 
   }
@@ -52,6 +53,26 @@ export default class Sample extends React.Component {
       })
     } else {
       this.onLoginSuccess('form');
+    }
+  }
+
+  onRecoverPassword() {
+    console.log('__onFotgottenPassword__');
+    console.log('email: ' + document.querySelector('#email').value);
+
+    const email = document.querySelector('#email').value;
+
+
+    if (!email) {
+      this.setState({
+        error: true,
+        recoverPasswordSuccess: false
+      })
+    } else {
+      this.setState({
+        error: null,
+        recoverPasswordSuccess: true
+      });
     }
   }
 
@@ -96,7 +117,8 @@ export default class Sample extends React.Component {
 
   onTabsChange() {
     this.setState({
-      error: null
+      error: null,
+      recoverPasswordSuccess: false,
     });
   }
 
@@ -150,11 +172,24 @@ export default class Sample extends React.Component {
           form={{
             onLogin: this.onLogin.bind(this),
             onRegister: this.onRegister.bind(this),
+            onRecoverPassword: this.onRecoverPassword.bind(this),
+
+            recoverPasswordSuccessLabel: this.state.recoverPasswordSuccess
+              ? {
+                  label: "New password has been sent to your mailbox!"
+                }
+              : null,
+            recoverPasswordAnchor: {
+              label: "Forgot your password?"
+            },
             loginBtn: {
               label: "Sign in"
             },
             registerBtn: {
               label: "Sign up"
+            },
+            recoverPasswordBtn: {
+              label: "Send new password"
             },
             loginInputs: [
               {
@@ -204,7 +239,18 @@ export default class Sample extends React.Component {
                 name: 'password',
                 placeholder: 'Password',
               }
-            ]
+            ],
+            recoverPasswordInputs: [
+              {
+                containerClass: 'RML-form-group',
+                label: 'Email',
+                type: 'email',
+                inputClass: 'RML-form-control',
+                id: 'email',
+                name: 'email',
+                placeholder: 'Email',
+              },
+            ],
           }}
           separator={{
             label: "or"

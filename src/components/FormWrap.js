@@ -4,8 +4,7 @@
 
 import React from "react";
 
-import FormLoginButton from "./FormLoginButton";
-import FormRegisterButton from "./FormRegisterButton";
+import FormSubmitButton from "./FormSubmitButton";
 
 
 export default class FormWrap extends React.Component {
@@ -32,35 +31,77 @@ export default class FormWrap extends React.Component {
     const formProps = this.props.form;
 
     const loginBtn = formProps && formProps.loginBtn
-      ? <FormLoginButton
-          buttonClass={formProps.loginBtn.buttonClass ? formProps.loginBtn.buttonClass : "RML-btn"}
+      ? <FormSubmitButton
+          buttonClass={
+            formProps.loginBtn.buttonClass
+              ? formProps.loginBtn.buttonClass
+              : "RML-btn"
+          }
+          type="login"
           inactive={this.props.inactive}
           click={formProps.onLogin ? formProps.onLogin : null}
           label={formProps.loginBtn.label ? formProps.loginBtn.label : "Sign in"}
         />
       : null;
 
-    const registerBtn = formProps.registerBtn
-      ? <FormRegisterButton
-          buttonClass={formProps.registerBtn.buttonClass ? formProps.registerBtn.buttonClass : "RML-btn"}
+    const registerBtn = formProps && formProps.registerBtn
+      ? <FormSubmitButton
+          buttonClass={
+            formProps.registerBtn.buttonClass
+              ? formProps.registerBtn.buttonClass
+              : "RML-btn"
+          }
+          type="register"
           inactive={this.props.inactive}
           click={formProps.onRegister ? formProps.onRegister : null}
           label={formProps.registerBtn.label ? formProps.registerBtn.label : "Sign up"}
         />
       : null;
 
+    const recoverPasswordBtn = formProps && formProps.recoverPasswordBtn
+      ? <FormSubmitButton
+          buttonClass={
+            formProps.recoverPasswordBtn.buttonClass
+              ? formProps.recoverPasswordBtn.buttonClass
+              : "RML-btn"
+          }
+          type="recoverPassword"
+          inactive={this.props.inactive}
+          click={formProps.onRecoverPassword ? formProps.onRecoverPassword : null}
+          label={formProps.recoverPasswordBtn.label ? formProps.recoverPasswordBtn.label : "Recover password"}
+        />
+      : null;
+
+    const recoverPasswordAnchor = formProps && formProps.recoverPasswordAnchor
+      ? <span
+          className={
+            formProps.recoverPasswordAnchor.anchorClass
+              ? formProps.recoverPasswordAnchor.anchorClass
+              : "RML-recover-password-anchor"
+          }
+          onClick={() => {
+            this.props.recoverPasswordAnchorClick();
+          }}
+        >
+          {formProps.recoverPasswordAnchor.label}
+        </span>
+      : null;
+
     const formLoginInputs = formProps.loginInputs
       ? formProps.loginInputs.map((input, index) => {
         return (
-          <div className={input.containerClass ? input.containerClass : "RML-form-group"} key={index}>
+          <div
+            className={input.containerClass ? input.containerClass : "RML-form-group"}
+            key={index}
+          >
             <label htmlFor={input.id}>{input.label}</label>
             <input
               type={input.type}
               className={input.inputClass ? input.inputClass : "RML-form-control"}
               id={input.id}
-              key={input.id}
               name={input.name}
               ref={"formLoginInput-" + index}
+              key={"formLoginInput-" + index}
               defaultValue=""
               placeholder={input.placeholder}
             />
@@ -72,7 +113,10 @@ export default class FormWrap extends React.Component {
     const formRegisterInputs = formProps.registerInputs
       ? formProps.registerInputs.map((input, index) => {
         return (
-          <div className={input.containerClass ? input.containerClass : "RML-form-group"} key={index}>
+          <div
+            className={input.containerClass ? input.containerClass : "RML-form-group"}
+            key={index}
+          >
             <label htmlFor={input.id}>{input.label}</label>
             <input
               type={input.type}
@@ -80,12 +124,49 @@ export default class FormWrap extends React.Component {
               id={input.id}
               name={input.name}
               ref={"formRegisterInput-" + index}
+              key={"formRegisterInput-" + index}
               defaultValue=""
               placeholder={input.placeholder}
             />
           </div>
         )
       })
+      : null;
+
+    const formRecoverPasswordInputs = formProps.recoverPasswordInputs
+      ? formProps.recoverPasswordInputs.map((input, index) => {
+          return (
+            <div
+              className={input.containerClass ? input.containerClass : "RML-form-group"}
+              key={index}
+            >
+              <label htmlFor={input.id}>{input.label}</label>
+              <input
+                type={input.type}
+                className={input.inputClass ? input.inputClass : "RML-form-control"}
+                id={input.id}
+                name={input.name}
+                ref={"formRecoverPasswordInput-" + index}
+                key={"formRecoverPasswordInput-" + index}
+                defaultValue=""
+                placeholder={input.placeholder}
+              />
+            </div>
+          )
+        })
+      : null;
+
+    const recoverPasswordSuccessLabel = this.props.recoverPasswordSuccessLabel
+      ? <span
+          className={
+            this.props.recoverPasswordSuccessLabel.labelClass
+              ? this.props.recoverPasswordSuccessLabel.labelClass
+              : "RML-recover-password-success-label"
+          }
+          id="recoverPasswordSuccessLabel"
+        >
+          {this.props.recoverPasswordSuccessLabel.label}
+        </span>
       : null;
 
     let formWrap = null;
@@ -113,6 +194,7 @@ export default class FormWrap extends React.Component {
             {formLoginInputs}
             {formProps.bottomLoginContainer}
             {this.props.errorWrap}
+            {recoverPasswordAnchor}
             {loginBtn}
             {this.props.loader}
 
@@ -120,6 +202,22 @@ export default class FormWrap extends React.Component {
           </div>
         );
       break;
+
+      case "recoverPassword":
+        formWrap = (
+          <div className={formProps.recoverPasswordContainerClass ? formProps.recoverPasswordContainerClass : "RML-login-modal-form"}>
+
+            {formRecoverPasswordInputs}
+            {formProps.bottomRecoverPasswordContainer}
+            {recoverPasswordSuccessLabel}
+            {this.props.errorWrap}
+            {recoverPasswordBtn}
+            {this.props.loader}
+
+            <div className="clearfix" />
+          </div>
+        );
+        break;
     }
 
     return formWrap;
