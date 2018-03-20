@@ -128,6 +128,7 @@ export default class Sample extends React.Component {
           visible={this.state.showModal}
           onCloseModal={this.closeModal.bind(this)}
           loading={isLoading}
+          initialTab="register"
           error={this.state.error}
           tabs={{
             onChange: this.onTabsChange.bind(this)
