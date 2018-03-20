@@ -4,7 +4,8 @@
 
 import React from "react";
 
-export default class FormRegisterButton extends React.Component {
+
+export default class SubmitError extends React.Component {
 
   constructor(props) {
     super(props);
@@ -17,13 +18,9 @@ export default class FormRegisterButton extends React.Component {
   render() {
 
     return (
-      <button
-        className={this.props.buttonClass}
-        disabled={this.props.inactive}
-        onClick={() => this.props.click()}
-      >
+      <span className={this.props.containerClass} id={this.props.type + "Error"}>
         {this.props.label}
-      </button>
+      </span>
     )
   }
 };

@@ -4,7 +4,7 @@
 
 import React from "react";
 
-export default class FormLoginButton extends React.Component {
+export default class FormSubmitButton extends React.Component {
 
   constructor(props) {
     super(props);
@@ -21,6 +21,7 @@ export default class FormLoginButton extends React.Component {
         className={this.props.buttonClass}
         disabled={this.props.inactive}
         onClick={() => this.props.click()}
+        id={this.props.type + "Submit"}
       >
         {this.props.label}
       </button>
