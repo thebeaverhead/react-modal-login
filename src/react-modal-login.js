@@ -33,6 +33,15 @@ export default class ReactModalLogin extends React.Component {
     this.onCloseModal = this.onCloseModal.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+
+    if (!this.props.visible && nextProps.visible ) {
+      this.setState({
+        currentTab: this.props.initialTab ? this.props.initialTab : "login",
+      })
+    }
+  }
+
   /**
    *
    * @param e
