@@ -254,16 +254,16 @@ class ReactModalLogin extends React.Component {
         />
       : null;
 
-    const closeBtn = this.props.closeBtn
-      ? <CloseBtn
-          containerClass={
-            this.props.closeBtn.containerClass
-              ? this.props.closeBtn.containerClass
-              : "RML-login-modal-close"
-          }
-          click={() => this.onCloseModal()}
-        />
-      : null;
+    const closeBtn = this.props.closeBtn.element
+      ? this.props.closeBtn.element
+      : <CloseBtn
+        containerClass={
+          this.props.closeBtn.containerClass
+            ? this.props.closeBtn.containerClass
+            : "RML-login-modal-close"
+        }
+        click={() => this.onCloseModal()}
+      />;
 
     let facebookButton = null;
 
@@ -500,8 +500,13 @@ ReactModalLogin.propTypes = {
   }),
 
   closeBtn: PropTypes.shape({
-    containerClass: PropTypes.string
+    containerClass: PropTypes.string,
+    element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+    ])
   }),
+
   tabs: PropTypes.shape({
     containerClass: PropTypes.string,
     onChange: PropTypes.func,

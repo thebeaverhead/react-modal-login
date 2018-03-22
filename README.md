@@ -226,6 +226,7 @@ class Sample extends React.Component {
     
 * `closeBtn` |_object_| - close button object
     * `containerClass` |_string_| - close button container custom class
+    * `element` |_element_| - custom close button we'd like to attach
     
 * `form` |_object_| - object of custom login/register form you may include in popup
     * `onLogin` |_function_| - function executing when user click 'sign in' button
