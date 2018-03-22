@@ -81,7 +81,7 @@ You need to create methods to be passed to ReactModalLogin component such as:
     be willing to make other elements inactive
 * `finishLoading()` - that action is indicating the end of loading and it's making all the elements inside the component
     active again
-* `onTabsChange()` - callback to clicking tab button. As provided in our example, you may use it to clean the error state
+* `afterTabsChange()` - callback to clicking tab button. As provided in our example, you may use it to clean the error state
 
 Most Likely you will be in the need of using social login callback actions. Those may execute some code in your app as well
 as display the fail error:
@@ -148,7 +148,7 @@ class Sample extends React.Component {
     })
   }
 
-  onTabsChange() {
+  afterTabsChange() {
     this.setState({
       error: null
     });
@@ -172,7 +172,7 @@ class Sample extends React.Component {
           loading={this.state.loading}
           error={this.state.error}
           tabs={{
-            onChange: this.onTabsChange.bind(this)
+            afterChange: this.afterTabsChange.bind(this)
           }}
           loginError={{
             label: "Couldn't sign in, please try again."
@@ -208,7 +208,7 @@ class Sample extends React.Component {
 
 * `mainWrapId` |_string_| - id of the whole component's wrapper
 
-* `initialTab` |_string_| - (default _"login"_) initial tab we'd like to mark as opened - "login" or "register"
+* `initialTab` |_string_| - (default _"login"_) initial tab we'd like to mark as opened - _'login'_, _'register'_ or _'recoverPassword'_
 
 * `onAfterCloseModal` |_function_| - action executing just after the closing of modal
 
@@ -227,7 +227,41 @@ class Sample extends React.Component {
 * `closeBtn` |_object_| - close button object
     * `containerClass` |_string_| - close button container custom class
     * `element` |_element_| - custom close button we'd like to attach
+
+* `aboveSocialsLoginContainer` |_element_| - custom container above socials buttons visible on login tab
+
+* `aboveSocialsRegisterContainer` |_element_| - custom container above socials buttons visible on register tab
+
+* `aboveSocialsRecoverPasswordContainer` |_element_| - custom container above socials buttons visible on recover password tab
     
+* `newTab` |_string_| - if we'd like to change current tab somewhere else than by clicking it's tab, that's a good place.
+                        accepted values: _'login'_, _'register'_, _'recoverPassword'_. However if you intend to do so, you should
+                        clean that property afterwards. For instance:
+```js
+   onSelectTab(tab) {
+   
+       this.setState({
+         newTab: tab
+       }, () => {
+         this.setState({
+           newTab: null
+         })
+       })
+     } 
+```
+and then:
+
+```js
+
+        <ReactModalLogin
+          ...
+          newTab={this.state.newTab}
+          ...
+         />
+````
+
+You may also achieve that in _tabs.afterChange()_ callback
+
 * `form` |_object_| - object of custom login/register form you may include in popup
     * `onLogin` |_function_| - function executing when user click 'sign in' button
     * `onRegister` |_function_| - function executing when user click 'sign up' button
@@ -333,7 +367,7 @@ class Sample extends React.Component {
     
 * `tabs` |_object_| - sign in / sign up tabs object
     * `containerClass` |_string_| - tabs container custom class
-    * `onChange` |_function_| - callback which fires after the change of a tab
+    * `afterChange` |_function_| - callback which fires after the change of a tab
     * `loginLabel` |_string_| - text of login label
     * `registerLabel` |_string_| - text of register label
     

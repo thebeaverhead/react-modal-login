@@ -115,7 +115,7 @@ export default class Sample extends React.Component {
     })
   }
 
-  onTabsChange() {
+  afterTabsChange() {
     this.setState({
       error: null,
       recoverPasswordSuccess: false,
@@ -165,7 +165,7 @@ export default class Sample extends React.Component {
           initialTab={this.state.initialTab}
           error={this.state.error}
           tabs={{
-            onChange: this.onTabsChange.bind(this)
+            afterChange: this.afterTabsChange.bind(this)
           }}
           startLoading={this.startLoading.bind(this)}
           finishLoading={this.finishLoading.bind(this)}

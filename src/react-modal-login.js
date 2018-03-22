@@ -26,15 +26,23 @@ class ReactModalLogin extends React.Component {
 
     this.state = {
       currentTab: this.props.initialTab ? this.props.initialTab : "login",
+      newTab: this.props.newTab
     };
 
     this.keyHandler = this.keyHandler.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
+
   }
 
   componentWillReceiveProps(nextProps) {
 
-    if (!this.props.visible && nextProps.visible ) {
+    if (nextProps.newTab && nextProps.newTab !== this.state.currentTab) {
+      this.setState({
+        currentTab: nextProps.newTab
+      })
+    }
+
+    if (!this.props.visible && nextProps.visible) {
       this.setState({
         currentTab: this.props.initialTab ? this.props.initialTab : "login",
       })
@@ -105,8 +113,8 @@ class ReactModalLogin extends React.Component {
 
     if (prevState.currentTab !== this.state.currentTab) {
 
-      if (this.props.tabs.onChange) {
-        this.props.tabs.onChange();
+      if (this.props.tabs.afterChange) {
+        this.props.tabs.afterChange();
       }
 
     }
@@ -410,6 +418,18 @@ class ReactModalLogin extends React.Component {
         </div>
       : null;
 
+    const aboveSocialsLoginContainer = this.props.aboveSocialsLoginContainer && this.state.currentTab === "login"
+      ? this.props.aboveSocialsLoginContainer
+      : null;
+
+    const aboveSocialsRegisterContainer = this.props.aboveSocialsRegisterContainer && this.state.currentTab === "register"
+      ? this.props.aboveSocialsRegisterContainer
+      : null;
+
+    const aboveSocialsRecoverPasswordContainer = this.props.aboveSocialsRecoverPasswordContainer && this.state.currentTab === "recoverPassword"
+      ? this.props.aboveSocialsRecoverPasswordContainer
+      : null;
+
     return (
       <div
         id={this.props.mainWrapId ? this.props.mainWrapId : ""}
@@ -428,6 +448,11 @@ class ReactModalLogin extends React.Component {
             {closeBtn}
             {tabs}
             <div className="RML-social-modal-content-wrap">
+
+              {aboveSocialsLoginContainer}
+              {aboveSocialsRegisterContainer}
+              {aboveSocialsRecoverPasswordContainer}
+
               {facebookButton}
               {googleButton}
 
@@ -465,6 +490,8 @@ ReactModalLogin.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
   onBeforeCloseModal: PropTypes.func,
   onAfterCloseModal: PropTypes.func,
+
+  newTab: PropTypes.string,
 
   overlayClass: PropTypes.string,
 
@@ -513,7 +540,7 @@ ReactModalLogin.propTypes = {
 
   tabs: PropTypes.shape({
     containerClass: PropTypes.string,
-    onChange: PropTypes.func,
+    afterChange: PropTypes.func,
     loginLabel: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element,
@@ -570,6 +597,10 @@ ReactModalLogin.propTypes = {
     bottomLoginContainer: PropTypes.element,
     bottomRegisterContainer: PropTypes.element,
     bottomRecoverPasswordContainer: PropTypes.element,
+
+    aboveSocialsLoginContainer: PropTypes.element,
+    aboveSocialsRegisterContainer: PropTypes.element,
+    aboveSocialsRecoverPasswordContainer: PropTypes.element,
 
     registerContainerClass: PropTypes.string,
     loginContainerClass: PropTypes.string,
