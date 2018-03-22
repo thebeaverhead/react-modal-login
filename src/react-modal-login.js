@@ -255,7 +255,11 @@ class ReactModalLogin extends React.Component {
       : null;
 
     const closeBtn = this.props.closeBtn.element
-      ? this.props.closeBtn.element
+      ? <div
+          onClick={() => this.onCloseModal()}
+        >
+          {this.props.closeBtn.element}
+        </div>
       : <CloseBtn
         containerClass={
           this.props.closeBtn.containerClass
