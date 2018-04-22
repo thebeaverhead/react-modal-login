@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs component should render login tab 1`] = `
+<div
+  className="RML-login-modal-mode"
+>
+  <div
+    className=""
+    onClick={[Function]}
+  >
+    Sign in
+  </div>
+  <div
+    className=""
+    onClick={[Function]}
+  >
+    Sign up
+  </div>
+</div>
+`;
+
+exports[`Tabs component should render recoverPassword tab 1`] = `
+<div
+  className="RML-login-modal-mode"
+>
+  <div
+    className=""
+    onClick={[Function]}
+  >
+    Sign in
+  </div>
+  <div
+    className=""
+    onClick={[Function]}
+  >
+    Sign up
+  </div>
+</div>
+`;
+
+exports[`Tabs component should render register tab 1`] = `
+<div
+  className="RML-login-modal-mode"
+>
+  <div
+    className=""
+    onClick={[Function]}
+  >
+    Sign in
+  </div>
+  <div
+    className=""
+    onClick={[Function]}
+  >
+    Sign up
+  </div>
+</div>
+`;

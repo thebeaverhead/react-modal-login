@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Separator component should render correctly 1`] = `
+<p
+  className="RML-social-methods-separator"
+>
+  Or
+</p>
+`;

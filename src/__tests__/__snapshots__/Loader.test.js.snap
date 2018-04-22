@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loader component should render correctly 1`] = `
+<span
+  className="RML-login-modal-indicator"
+>
+  <svg
+    className="RML-login-modal-spinner"
+    height="24px"
+    viewBox="0 0 66 66"
+    width="24px"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle
+      className="path"
+      cx="33"
+      cy="33"
+      fill="none"
+      r="30"
+      strokeLinecap="round"
+      strokeWidth="6"
+    />
+  </svg>
+</span>
+`;

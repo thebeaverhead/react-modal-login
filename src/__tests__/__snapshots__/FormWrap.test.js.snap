@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormWrap component should render login tab 1`] = `
+<div
+  className="RML-login-modal-form"
+>
+  <div
+    className="RML-form-group"
+    key="0"
+  >
+    <label
+      htmlFor="email"
+    >
+      Email
+    </label>
+    <input
+      className="RML-form-control"
+      defaultValue=""
+      id="email"
+      key="formLoginInput-0"
+      name="email"
+      placeholder="Email"
+      type="email"
+    />
+  </div>
+  <div
+    className="RML-form-group"
+    key="1"
+  >
+    <label
+      htmlFor="password"
+    >
+      Password
+    </label>
+    <input
+      className="RML-form-control"
+      defaultValue=""
+      id="password"
+      key="formLoginInput-1"
+      name="password"
+      placeholder="Password"
+      type="password"
+    />
+  </div>
+  <span
+    className="RML-recover-password-anchor"
+    onClick={[Function]}
+  >
+    Forgot your password?
+  </span>
+  <FormSubmitButton
+    buttonClass="RML-btn"
+    click={null}
+    label="Sign in"
+    type="login"
+  />
+  <div
+    className="clearfix"
+  />
+</div>
+`;
+
+exports[`FormWrap component should render recoverPassword tab 1`] = `
+<div
+  className="RML-login-modal-form"
+>
+  <div
+    className="RML-form-group"
+    key="0"
+  >
+    <label
+      htmlFor="email"
+    >
+      Email
+    </label>
+    <input
+      className="RML-form-control"
+      defaultValue=""
+      id="email"
+      key="formRecoverPasswordInput-0"
+      name="email"
+      placeholder="Email"
+      type="email"
+    />
+  </div>
+  <FormSubmitButton
+    buttonClass="RML-btn"
+    click={null}
+    label="Send new password"
+    type="recoverPassword"
+  />
+  <div
+    className="clearfix"
+  />
+</div>
+`;
+
+exports[`FormWrap component should render register tab 1`] = `
+<div
+  className="RML-login-modal-form"
+>
+  <div
+    className="RML-form-group"
+    key="0"
+  >
+    <label
+      htmlFor="login"
+    >
+      Nickname
+    </label>
+    <input
+      className="RML-form-control"
+      defaultValue=""
+      id="login"
+      key="formRegisterInput-0"
+      name="login"
+      placeholder="Nickname"
+      type="text"
+    />
+  </div>
+  <div
+    className="RML-form-group"
+    key="1"
+  >
+    <label
+      htmlFor="email"
+    >
+      Email
+    </label>
+    <input
+      className="RML-form-control"
+      defaultValue=""
+      id="email"
+      key="formRegisterInput-1"
+      name="email"
+      placeholder="Email"
+      type="email"
+    />
+  </div>
+  <div
+    className="RML-form-group"
+    key="2"
+  >
+    <label
+      htmlFor="password"
+    >
+      Password
+    </label>
+    <input
+      className="RML-form-control"
+      defaultValue=""
+      id="password"
+      key="formRegisterInput-2"
+      name="password"
+      placeholder="Password"
+      type="password"
+    />
+  </div>
+  <FormSubmitButton
+    buttonClass="RML-btn"
+    click={null}
+    label="Sign up"
+    type="register"
+  />
+  <div
+    className="clearfix"
+  />
+</div>
+`;

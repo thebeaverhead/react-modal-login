@@ -5,6 +5,8 @@
       {
         "modules": false
       }
-    ]
+    ],
+    "es2015",
+    "react"
   ]
 }

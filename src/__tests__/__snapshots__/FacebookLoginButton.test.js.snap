@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FacebookLoginButton component should render correctly 1`] = `
+<button
+  className="RML-facebook-login-button"
+  onClick={[Function]}
+>
+  <FacebookIcon />
+  <span>
+    Continue with Facebook
+  </span>
+</button>
+`;
