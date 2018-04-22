@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Close component should render correctly 1`] = `
+<div
+  className="RML-login-modal-close"
+  onClick={[Function]}
+>
+  <CloseIcon />
+</div>
+`;

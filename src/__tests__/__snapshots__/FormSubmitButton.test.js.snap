@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormSubmitButton component should render correctly 1`] = `
+<button
+  id="undefinedSubmit"
+  onClick={[Function]}
+/>
+`;

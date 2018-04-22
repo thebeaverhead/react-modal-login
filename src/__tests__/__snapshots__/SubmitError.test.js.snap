@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubmitError component should render login tab 1`] = `
+<span
+  className="RML-login-modal-error"
+  id="undefinedError"
+>
+  Unable to login. Please try again later
+</span>
+`;
+
+exports[`SubmitError component should render recoverPassword tab 1`] = `
+<span
+  className="RML-login-modal-error"
+  id="undefinedError"
+>
+  Unable to recover password. Please try again later
+</span>
+`;
+
+exports[`SubmitError component should render register tab 1`] = `
+<span
+  className="RML-login-modal-error"
+  id="undefinedError"
+>
+  Unable to register. Please try again later
+</span>
+`;

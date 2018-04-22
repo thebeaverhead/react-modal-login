@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GoogleLoginButton component should render correctly 1`] = `
+<button
+  className="RML-google-login-button"
+  onClick={[Function]}
+>
+  <GoogleIcon />
+  <span>
+    Continue with Google
+  </span>
+</button>
+`;

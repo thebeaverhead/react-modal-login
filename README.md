@@ -413,6 +413,12 @@ You may change the port from 8080 to something different in _webpack.dev.config.
 There is a hot reloader so you don't really need to reload the page manually since all the changes *.js and *.less files
 cause it to happen automatically.
 
+To run tests simply type:
+
+```bash
+npm test
+```
+
 **Production build**
 
 To build a production package you need to type:
