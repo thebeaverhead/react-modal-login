@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'production',
   entry: './src/react-modal-login.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
