@@ -11,13 +11,29 @@ export default class FormWrap extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.inputRefs = {};
   }
+
+
+  /**
+   *
+   * @param element
+   * @param id
+   */
+  setInputRef(element) {
+
+    if (element) {
+      this.inputRefs[element.id] = element;
+    }
+  }
+
 
   componentWillReceiveProps(nextProps) {
 
     if (!this.props.visible && nextProps.visible ) {
-      for (const ref in this.refs) {
-        this.refs[ref].value = "";
+      for (const ref in this.inputRefs) {
+        this.inputRefs[ref].value = "";
       }
     }
   }
@@ -100,7 +116,7 @@ export default class FormWrap extends React.Component {
               className={input.inputClass ? input.inputClass : "RML-form-control"}
               id={input.id}
               name={input.name}
-              ref={"formLoginInput-" + index}
+              ref={this.setInputRef.bind(this)}
               key={"formLoginInput-" + index}
               defaultValue=""
               placeholder={input.placeholder}
@@ -123,7 +139,7 @@ export default class FormWrap extends React.Component {
               className={input.inputClass ? input.inputClass : "RML-form-control"}
               id={input.id}
               name={input.name}
-              ref={"formRegisterInput-" + index}
+              ref={this.setInputRef.bind(this)}
               key={"formRegisterInput-" + index}
               defaultValue=""
               placeholder={input.placeholder}
@@ -146,7 +162,7 @@ export default class FormWrap extends React.Component {
                 className={input.inputClass ? input.inputClass : "RML-form-control"}
                 id={input.id}
                 name={input.name}
-                ref={"formRecoverPasswordInput-" + index}
+                ref={this.setInputRef.bind(this)}
                 key={"formRecoverPasswordInput-" + index}
                 defaultValue=""
                 placeholder={input.placeholder}

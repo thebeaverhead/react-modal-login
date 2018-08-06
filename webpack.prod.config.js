@@ -1,7 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+  mode: 'production',
   entry: './src/react-modal-login.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -39,7 +41,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
+    /*new webpack.optimize.UglifyJsPlugin({
       comments: false,
       mangle: {
         except: [
@@ -47,7 +49,7 @@ module.exports = {
         ],
         props: false,
       }
-    }),
+    }),*/
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
@@ -56,5 +58,20 @@ module.exports = {
   ],
   externals: {
     'react': 'commonjs react'
+  },
+
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: false,
+          ecma: 6,
+          mangle: true
+        },
+        sourceMap: true
+      })
+    ]
   }
 };
