@@ -16,11 +16,9 @@ import Loader from "./components/Loader";
 
 import FormWrap from "./components/FormWrap";
 
-require('./less/style.less');
-
+require("./less/style.less");
 
 class ReactModalLogin extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -31,21 +29,19 @@ class ReactModalLogin extends React.Component {
 
     this.keyHandler = this.keyHandler.bind(this);
     this.onCloseModal = this.onCloseModal.bind(this);
-
   }
 
   componentWillReceiveProps(nextProps) {
-
     if (nextProps.newTab && nextProps.newTab !== this.state.currentTab) {
       this.setState({
         currentTab: nextProps.newTab
-      })
+      });
     }
 
     if (!this.props.visible && nextProps.visible) {
       this.setState({
-        currentTab: this.props.initialTab ? this.props.initialTab : "login",
-      })
+        currentTab: this.props.initialTab ? this.props.initialTab : "login"
+      });
     }
   }
 
@@ -54,31 +50,37 @@ class ReactModalLogin extends React.Component {
    * @param e
    */
   keyHandler(e) {
+    e = e || window.event;
 
-      e = e || window.event;
+    let isEscape = false;
+    let isEnter = false;
 
-      let isEscape = false;
-      let isEnter = false;
+    if ("key" in e) {
+      isEscape = e.key === "Escape" || e.key === "Esc";
+      isEnter = e.key === "Enter" || e.key === "enter";
+    } else {
+      isEscape = e.keyCode === 27;
+      isEnter = e.keyCode === 13;
+    }
 
-      if ("key" in e) {
-        isEscape = (e.key === "Escape" || e.key === "Esc");
-        isEnter = (e.key === "Enter" || e.key === "enter");
-      } else {
-        isEscape = (e.keyCode === 27);
-        isEnter = (e.keyCode === 13);
+    if (isEscape) {
+      this.onCloseModal();
+    }
+    if (isEnter) {
+      if (
+        this.state.currentTab === "register" &&
+        this.props.form &&
+        this.props.form.onRegister
+      ) {
+        this.props.form.onRegister();
+      } else if (
+        this.state.currentTab === "login" &&
+        this.props.form &&
+        this.props.form.onLogin
+      ) {
+        this.props.form.onLogin();
       }
-
-      if (isEscape) {
-        this.onCloseModal();
-      }
-      if (isEnter) {
-
-        if (this.state.currentTab === "register" && this.props.form && this.props.form.onRegister) {
-          this.props.form.onRegister();
-        } else if (this.state.currentTab === "login" && this.props.form && this.props.form.onLogin) {
-          this.props.form.onLogin();
-        }
-      }
+    }
   }
 
   /**
@@ -92,15 +94,26 @@ class ReactModalLogin extends React.Component {
    *
    */
   componentDidUpdate(prevProps, prevState) {
-
     /* Initialize Facebook */
-    if (this.props.providers && this.props.providers.facebook && typeof FB === 'undefined' && this.props.visible && !this.props.loading) {
+    if (
+      this.props.providers &&
+      this.props.providers.facebook &&
+      typeof FB === "undefined" &&
+      this.props.visible &&
+      !this.props.loading
+    ) {
       this.props.startLoading();
       this.initFBConnect();
     }
 
     /* Initialize Google */
-    if (this.props.providers && this.props.providers.google && typeof window.gapi === 'undefined' && this.props.visible && !this.props.loading) {
+    if (
+      this.props.providers &&
+      this.props.providers.google &&
+      typeof window.gapi === "undefined" &&
+      this.props.visible &&
+      !this.props.loading
+    ) {
       this.props.startLoading();
       this.initGoogleConnect();
     }
@@ -112,42 +125,38 @@ class ReactModalLogin extends React.Component {
     }
 
     if (prevState.currentTab !== this.state.currentTab) {
-
       if (this.props.tabs.afterChange) {
         this.props.tabs.afterChange();
       }
-
     }
   }
-
 
   /**
    *
    * @constructor
    */
   initFBConnect() {
+    window.fbAsyncInit = () => {
+      FB.init({
+        ...this.props.providers.facebook.config
+      });
 
-      window.fbAsyncInit = () => {
-        FB.init({
-          ...this.props.providers.facebook.config
-        });
-
-        FB.AppEvents.logPageView();
-
+      FB.AppEvents.logPageView();
+    };
+    ((d, s, id) => {
+      let js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.onload = () => {
+        this.props.finishLoading();
       };
-      ((d, s, id) => {
-        let js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-          return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.onload = () => {
-          this.props.finishLoading();
-        };
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, 'script', 'facebook-jssdk');
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, "script", "facebook-jssdk");
   }
 
   /**
@@ -155,72 +164,69 @@ class ReactModalLogin extends React.Component {
    * @constructor
    */
   initGoogleConnect() {
-
     (() => {
       let e = document.createElement("script");
       e.type = "text/javascript";
       e.async = true;
       e.onload = () => {
-
-        window.gapi.load('auth2', () => {
-
+        window.gapi.load("auth2", () => {
           window.gapi.auth2.init({
             ...this.props.providers.google.config
           });
           this.props.finishLoading();
-        })
+        });
       };
 
       e.src = "https://apis.google.com/js/platform.js";
       let t = document.getElementsByTagName("script")[0];
       t.parentNode.insertBefore(e, t);
     })();
-
   }
 
   /**
    *
    */
   tabsLoginClick() {
-
     if (this.props.tabs && this.props.tabs.onLoginClickBeforeTransition) {
       this.props.tabs.onLoginClickBeforeTransition();
     }
 
-    this.setState({
-      currentTab: "login"
-    }, () => {
-
-      if (this.props.tabs && this.props.tabs.onLoginClickAfterTransition) {
-        this.props.tabs.onLoginClickAfterTransition();
+    this.setState(
+      {
+        currentTab: "login"
+      },
+      () => {
+        if (this.props.tabs && this.props.tabs.onLoginClickAfterTransition) {
+          this.props.tabs.onLoginClickAfterTransition();
+        }
       }
-    })
+    );
   }
 
   /**
    *
    */
   tabsRegisterClick() {
-
     if (this.props.tabs && this.props.tabs.onRegisterClickBeforeTransition) {
       this.props.tabs.onRegisterClickBeforeTransition();
     }
 
-    this.setState({
-      currentTab: "register"
-    }, () => {
-
-      if (this.props.tabs && this.props.tabs.onRegisterClickAfterTransition) {
-        this.props.tabs.onRegisterClickAfterTransition();
+    this.setState(
+      {
+        currentTab: "register"
+      },
+      () => {
+        if (this.props.tabs && this.props.tabs.onRegisterClickAfterTransition) {
+          this.props.tabs.onRegisterClickAfterTransition();
+        }
       }
-    })
+    );
   }
 
   recoverPasswordAnchorClick() {
-
     this.setState({
       currentTab: "recoverPassword"
-    })
+    });
   }
 
   /**
@@ -243,84 +249,109 @@ class ReactModalLogin extends React.Component {
    * @constructor
    */
   render() {
+    const { facebook, google } = this.props.providers;
 
-    const {facebook, google} = this.props.providers;
+    const tabs = this.props.tabs ? (
+      <Tabs
+        containerClass={
+          this.props.tabs.containerClass
+            ? this.props.tabs.containerClass
+            : "RML-login-modal-mode"
+        }
+        inactive={this.props.loading ? this.props.loading : false}
+        loginClick={this.tabsLoginClick.bind(this)}
+        registerClick={this.tabsRegisterClick.bind(this)}
+        currentTab={this.state.currentTab}
+        loginLabel={
+          this.props.tabs.loginLabel ? this.props.tabs.loginLabel : "Sign in"
+        }
+        registerLabel={
+          this.props.tabs.registerLabel
+            ? this.props.tabs.registerLabel
+            : "Sign up"
+        }
+      />
+    ) : null;
 
-    const tabs = this.props.tabs
-      ? <Tabs
-          containerClass={
-            this.props.tabs.containerClass
-              ? this.props.tabs.containerClass
-              : "RML-login-modal-mode"
-          }
-          inactive={this.props.loading ? this.props.loading : false}
-          loginClick={this.tabsLoginClick.bind(this)}
-          registerClick={this.tabsRegisterClick.bind(this)}
-          currentTab={this.state.currentTab}
-          loginLabel={this.props.tabs.loginLabel ? this.props.tabs.loginLabel : "Sign in"}
-          registerLabel={this.props.tabs.registerLabel ? this.props.tabs.registerLabel : "Sign up"}
-        />
-      : null;
-
-    const closeBtn = this.props.closeBtn.element
-      ? <div
-          onClick={() => this.onCloseModal()}
-        >
-          {this.props.closeBtn.element}
-        </div>
-      : <CloseBtn
+    const closeBtn = this.props.closeBtn.element ? (
+      <div onClick={() => this.onCloseModal()}>
+        {this.props.closeBtn.element}
+      </div>
+    ) : (
+      <CloseBtn
         containerClass={
           this.props.closeBtn.containerClass
             ? this.props.closeBtn.containerClass
             : "RML-login-modal-close"
         }
         click={() => this.onCloseModal()}
-      />;
+      />
+    );
 
     let facebookButton = null;
 
-    if (this.props.providers && this.props.providers.facebook && this.state.currentTab !== "recoverPassword") {
-      facebookButton = this.props.providers.facebook.btn
-        ? <facebook.btn
-            btnClass={facebook.btnClass ? facebook.btnClass : "RML-facebook-login-button"}
-            onStartLoading={this.props.startLoading}
-            onSuccess={facebook.onLoginSuccess ? facebook.onLoginSuccess : null}
-            onFail={facebook.onLoginFail ? facebook.onLoginFail : null}
-            inactive={this.props.loading ? this.props.loading : false}
-            label={facebook.label ? facebook.label : "Continue with Facebook"}
-            scope={facebook.config.scope}
-          />
-        : <FacebookLoginButton
-            btnClass={facebook.btnClass ? facebook.btnClass : "RML-facebook-login-button"}
-            onStartLoading={this.props.startLoading}
-            onSuccess={facebook.onLoginSuccess ? facebook.onLoginSuccess : null}
-            onFail={facebook.onLoginFail ? facebook.onLoginFail : null}
-            inactive={this.props.loading ? this.props.loading : false}
-            label={facebook.label ? facebook.label : "Continue with Facebook"}
-            scope={facebook.config.scope}
-        />;
+    if (
+      this.props.providers &&
+      this.props.providers.facebook &&
+      this.state.currentTab !== "recoverPassword"
+    ) {
+      facebookButton = this.props.providers.facebook.btn ? (
+        <facebook.btn
+          btnClass={
+            facebook.btnClass ? facebook.btnClass : "RML-facebook-login-button"
+          }
+          onStartLoading={this.props.startLoading}
+          onSuccess={facebook.onLoginSuccess ? facebook.onLoginSuccess : null}
+          onFail={facebook.onLoginFail ? facebook.onLoginFail : null}
+          inactive={this.props.loading ? this.props.loading : false}
+          label={facebook.label ? facebook.label : "Continue with Facebook"}
+          scope={facebook.config.scope}
+        />
+      ) : (
+        <FacebookLoginButton
+          btnClass={
+            facebook.btnClass ? facebook.btnClass : "RML-facebook-login-button"
+          }
+          onStartLoading={this.props.startLoading}
+          onSuccess={facebook.onLoginSuccess ? facebook.onLoginSuccess : null}
+          onFail={facebook.onLoginFail ? facebook.onLoginFail : null}
+          inactive={this.props.loading ? this.props.loading : false}
+          label={facebook.label ? facebook.label : "Continue with Facebook"}
+          scope={facebook.config.scope}
+        />
+      );
     }
 
     let googleButton = null;
 
-    if (this.props.providers && this.props.providers.google && this.state.currentTab !== "recoverPassword") {
-      googleButton = this.props.providers.google.btn
-        ? <google.btn
-            btnClass={google.btnClass ? google.btnClass : "RML-google-login-button"}
-            onStartLoading={this.props.startLoading}
-            onSuccess={google.onLoginSuccess ? google.onLoginSuccess : null}
-            onFail={google.onLoginFail ? google.onLoginFail : null}
-            inactive={this.props.loading ? this.props.loading : false}
-            label={google.label ? google.label : "Continue with Google"}
-          />
-        : <GoogleLoginButton
-            btnClass={google.btnClass ? google.btnClass : "RML-google-login-button"}
-            onStartLoading={this.props.startLoading}
-            onSuccess={google.onLoginSuccess ? google.onLoginSuccess : null}
-            onFail={google.onLoginFail ? google.onLoginFail : null}
-            inactive={this.props.loading ? this.props.loading : false}
-            label={google.label ? google.label : "Continue with Google"}
-        />;
+    if (
+      this.props.providers &&
+      this.props.providers.google &&
+      this.state.currentTab !== "recoverPassword"
+    ) {
+      googleButton = this.props.providers.google.btn ? (
+        <google.btn
+          btnClass={
+            google.btnClass ? google.btnClass : "RML-google-login-button"
+          }
+          onStartLoading={this.props.startLoading}
+          onSuccess={google.onLoginSuccess ? google.onLoginSuccess : null}
+          onFail={google.onLoginFail ? google.onLoginFail : null}
+          inactive={this.props.loading ? this.props.loading : false}
+          label={google.label ? google.label : "Continue with Google"}
+        />
+      ) : (
+        <GoogleLoginButton
+          btnClass={
+            google.btnClass ? google.btnClass : "RML-google-login-button"
+          }
+          onStartLoading={this.props.startLoading}
+          onSuccess={google.onLoginSuccess ? google.onLoginSuccess : null}
+          onFail={google.onLoginFail ? google.onLoginFail : null}
+          inactive={this.props.loading ? this.props.loading : false}
+          label={google.label ? google.label : "Continue with Google"}
+        />
+      );
     }
 
     let errorClass = null;
@@ -328,7 +359,6 @@ class ReactModalLogin extends React.Component {
 
     if (this.props.error) {
       switch (this.state.currentTab) {
-
         case "login":
           errorClass = this.props.loginError.containerClass
             ? this.props.loginError.containerClass
@@ -336,7 +366,7 @@ class ReactModalLogin extends React.Component {
           errorLabel = this.props.loginError.label
             ? this.props.loginError.label
             : "Unable to login. Please try again later";
-        break;
+          break;
 
         case "register":
           errorClass = this.props.registerError.containerClass
@@ -345,7 +375,7 @@ class ReactModalLogin extends React.Component {
           errorLabel = this.props.registerError.label
             ? this.props.registerError.label
             : "Unable to register. Please try again later";
-        break;
+          break;
 
         case "recoverPassword":
           errorClass = this.props.recoverPasswordError.containerClass
@@ -354,20 +384,21 @@ class ReactModalLogin extends React.Component {
           errorLabel = this.props.recoverPasswordError.label
             ? this.props.recoverPasswordError.label
             : "Unable to recover password. Please try again later";
-        break;
+          break;
       }
     }
 
-    const errorWrap = this.props.error
-      ? <SubmitError
-          type={this.state.currentTab}
-          containerClass={errorClass}
-          label={errorLabel}
-        />
-      : null;
+    const errorWrap = this.props.error ? (
+      <SubmitError
+        type={this.state.currentTab}
+        containerClass={errorClass}
+        label={errorLabel}
+      />
+    ) : null;
 
-    const separator = this.props.separator && this.state.currentTab !== "recoverPassword"
-      ? <Separator
+    const separator =
+      this.props.separator && this.state.currentTab !== "recoverPassword" ? (
+        <Separator
           containerClass={
             this.props.separator.containerClass
               ? this.props.separator.containerClass
@@ -375,11 +406,11 @@ class ReactModalLogin extends React.Component {
           }
           label={this.props.separator.label ? this.props.separator.label : "Or"}
         />
-      : null;
+      ) : null;
 
-
-    const loader = this.props.loading && !this.props.loader.disabled
-      ? <Loader
+    const loader =
+      this.props.loading && !this.props.loader.disabled ? (
+        <Loader
           containerClass={
             this.props.loader.containerClass
               ? this.props.loader.containerClass
@@ -388,25 +419,31 @@ class ReactModalLogin extends React.Component {
           onStartLoading={this.props.startLoading}
           size={24}
         />
-      : null;
+      ) : null;
 
-
-    const formWrap = this.props.form && !this.props.form.disabled
-      ? <FormWrap
+    const formWrap =
+      this.props.form && !this.props.form.disabled ? (
+        <FormWrap
           currentTab={this.state.currentTab}
           form={this.props.form}
           inactive={this.props.loading}
           loader={loader}
           errorWrap={errorWrap}
           visible={this.props.visible}
-          recoverPasswordAnchorClick={this.recoverPasswordAnchorClick.bind(this)}
-          recoverPasswordSuccessLabel={this.props.form.recoverPasswordSuccessLabel}
+          recoverPasswordAnchorClick={this.recoverPasswordAnchorClick.bind(
+            this
+          )}
+          recoverPasswordSuccessLabel={
+            this.props.form.recoverPasswordSuccessLabel
+          }
         />
-      : null;
+      ) : null;
 
-    const additionalWrap = (!this.props.form || this.props.form.disabled) && (!this.props.additionalWrap.disabled)
-          && (this.props.loading || this.props.error)
-      ? <div
+    const additionalWrap =
+      (!this.props.form || this.props.form.disabled) &&
+      !this.props.additionalWrap.disabled &&
+      (this.props.loading || this.props.error) ? (
+        <div
           className={
             this.props.additionalWrap.containerClass
               ? this.props.additionalWrap.containerClass
@@ -416,39 +453,52 @@ class ReactModalLogin extends React.Component {
           {errorWrap}
           {loader}
         </div>
-      : null;
+      ) : null;
 
-    const aboveSocialsLoginContainer = this.props.aboveSocialsLoginContainer && this.state.currentTab === "login"
-      ? this.props.aboveSocialsLoginContainer
-      : null;
+    const aboveSocialsLoginContainer =
+      this.props.aboveSocialsLoginContainer && this.state.currentTab === "login"
+        ? this.props.aboveSocialsLoginContainer
+        : null;
 
-    const aboveSocialsRegisterContainer = this.props.aboveSocialsRegisterContainer && this.state.currentTab === "register"
-      ? this.props.aboveSocialsRegisterContainer
-      : null;
+    const aboveSocialsRegisterContainer =
+      this.props.aboveSocialsRegisterContainer &&
+      this.state.currentTab === "register"
+        ? this.props.aboveSocialsRegisterContainer
+        : null;
 
-    const aboveSocialsRecoverPasswordContainer = this.props.aboveSocialsRecoverPasswordContainer && this.state.currentTab === "recoverPassword"
-      ? this.props.aboveSocialsRecoverPasswordContainer
-      : null;
+    const aboveSocialsRecoverPasswordContainer =
+      this.props.aboveSocialsRecoverPasswordContainer &&
+      this.state.currentTab === "recoverPassword"
+        ? this.props.aboveSocialsRecoverPasswordContainer
+        : null;
 
     return (
       <div
         id={this.props.mainWrapId ? this.props.mainWrapId : ""}
-        className={(this.props.mainWrapClass ? this.props.mainWrapClass : "RML-login-modal-wrap ") +
-        (this.props.visible ? "" : "hidden")}
+        className={
+          (this.props.mainWrapClass
+            ? this.props.mainWrapClass
+            : "RML-login-modal-wrap ") + (this.props.visible ? "" : "hidden")
+        }
       >
         <div
-          className={this.props.overlayClass ? this.props.overlayClass : "RML-login-modal-overlay"}
+          className={
+            this.props.overlayClass
+              ? this.props.overlayClass
+              : "RML-login-modal-overlay"
+          }
           onClick={() => this.onCloseModal()}
         />
 
-        <div
-          className={(this.props.visible ? "RML-login-modal-box" : "hidden")}
-        >
-          <div className={(this.props.visible ? "RML-login-modal-box-content" : "hidden")}>
+        <div className={this.props.visible ? "RML-login-modal-box" : "hidden"}>
+          <div
+            className={
+              this.props.visible ? "RML-login-modal-box-content" : "hidden"
+            }
+          >
             {closeBtn}
             {tabs}
             <div className="RML-social-modal-content-wrap">
-
               {aboveSocialsLoginContainer}
               {aboveSocialsRegisterContainer}
               {aboveSocialsRecoverPasswordContainer}
@@ -463,12 +513,10 @@ class ReactModalLogin extends React.Component {
             </div>
           </div>
         </div>
-
       </div>
-    )
+    );
   }
 }
-
 
 ReactModalLogin.defaultProps = {
   closeBtn: {},
@@ -478,7 +526,7 @@ ReactModalLogin.defaultProps = {
   additionalWrap: {},
   loginError: {},
   registerError: {},
-  recoverPasswordError: {},
+  recoverPasswordError: {}
 };
 
 ReactModalLogin.propTypes = {
@@ -497,96 +545,62 @@ ReactModalLogin.propTypes = {
 
   loginError: PropTypes.shape({
     containerClass: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ])
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   }),
   registerError: PropTypes.shape({
     containerClass: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ])
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   }),
   recoverPasswordError: PropTypes.shape({
     containerClass: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ])
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   }),
 
   loader: PropTypes.shape({
     disabled: PropTypes.bool,
-    containerClass: PropTypes.string,
+    containerClass: PropTypes.string
   }),
 
   separator: PropTypes.shape({
     containerClass: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ])
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   }),
 
   closeBtn: PropTypes.shape({
     containerClass: PropTypes.string,
-    element: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ])
+    element: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   }),
 
   tabs: PropTypes.shape({
     containerClass: PropTypes.string,
     afterChange: PropTypes.func,
-    loginLabel: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ]),
-    registerLabel: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-    ])
+    loginLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    registerLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   }),
   additionalWrap: PropTypes.shape({
     containerClass: PropTypes.string,
-    disabled: PropTypes.bool,
+    disabled: PropTypes.bool
   }),
-
 
   providers: PropTypes.shape({
     facebook: PropTypes.shape({
       btnClass: PropTypes.string,
       config: PropTypes.object.isRequired,
-      btn: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.element,
-      ]),
+      btn: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
       onLoginSuccess: PropTypes.func,
       onLoginFail: PropTypes.func,
       inactive: PropTypes.bool,
-      label: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-      ]),
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
     }),
     google: PropTypes.shape({
       btnClass: PropTypes.string,
       config: PropTypes.object.isRequired,
-      btn: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.element,
-      ]),
+      btn: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
       onLoginSuccess: PropTypes.func,
       onLoginFail: PropTypes.func,
       inactive: PropTypes.bool,
-      label: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-      ]),
-    }),
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+    })
   }),
 
   form: PropTypes.shape({
@@ -608,44 +622,29 @@ ReactModalLogin.propTypes = {
 
     recoverPasswordSuccessLabel: PropTypes.shape({
       labelClass: PropTypes.string,
-      label: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-      ]),
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
     }),
 
     recoverPasswordAnchor: PropTypes.shape({
       anchorClass: PropTypes.string,
       inactive: PropTypes.bool,
-      label: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-      ]),
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
     }),
 
     loginBtn: PropTypes.shape({
       buttonClass: PropTypes.string,
       inactive: PropTypes.bool,
-      label: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-      ]),
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
     }),
     registerBtn: PropTypes.shape({
       buttonClass: PropTypes.string,
       inactive: PropTypes.bool,
-      label: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-      ]),
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
     }),
     recoverPasswordBtn: PropTypes.shape({
       buttonClass: PropTypes.string,
       inactive: PropTypes.bool,
-      label: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-      ]),
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
     }),
     loginInputs: PropTypes.arrayOf(
       PropTypes.shape({
@@ -656,10 +655,7 @@ ReactModalLogin.propTypes = {
         name: PropTypes.string,
         placeholder: PropTypes.string,
 
-        label: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.element,
-        ]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
       })
     ),
     registerInputs: PropTypes.arrayOf(
@@ -671,10 +667,7 @@ ReactModalLogin.propTypes = {
         name: PropTypes.string,
         placeholder: PropTypes.string,
 
-        label: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.element,
-        ]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
       })
     ),
     recoverPasswordInputs: PropTypes.arrayOf(
@@ -686,14 +679,10 @@ ReactModalLogin.propTypes = {
         name: PropTypes.string,
         placeholder: PropTypes.string,
 
-        label: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.element,
-        ]),
+        label: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
       })
-    ),
+    )
   })
-
 };
 
 export default ReactModalLogin;
