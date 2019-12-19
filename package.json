@@ -61,7 +61,7 @@
   "scripts": {
     "build-prod-webpack": "webpack --colors --display-error-details --config webpack.prod.config.js",
     "build-prod-css": "lessc --clean-css=\"--s1 --advanced --compatibility=ie8\" src/less/style.less dist/react-modal-login.min.css",
-    "build-prod": "npm-run-all -s build-prod-css build-prod-webpack",
+    "build": "npm-run-all -s build-prod-css build-prod-webpack",
     "start": "webpack --colors --display-error-details --config webpack.dev.config.js && webpack-dev-server --config webpack.dev.config.js --inline",
     "test": "jest",
     "clear-jest": "jest --clearCache"
