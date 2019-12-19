@@ -4,7 +4,7 @@ import FormWrap from "../components/FormWrap";
 
 const formData = {
   recoverPasswordAnchor: {
-    label: "Forgot your password?"
+    label: "Forgot your password?",
   },
   loginBtn: {
     label: "Sign in"
@@ -90,6 +90,7 @@ describe('FormWrap component', () => {
       <FormWrap
         currentTab="login"
         form={formData}
+        recoverPasswordAnchorClick={() => {}}
       />
     ),
     recoverPassword: shallow(

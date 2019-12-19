@@ -5,7 +5,7 @@ import FormSubmitButton from "../components/FormSubmitButton";
 describe('FormSubmitButton component', () => {
 
   const shallowWrapper = shallow(
-    <FormSubmitButton/>
+    <FormSubmitButton click={() => {}}/>
   );
 
   const tree = toJson(shallowWrapper);

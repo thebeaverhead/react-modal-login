@@ -3,8 +3,14 @@
  */
 
 import React from "react";
+import PropTypes from 'prop-types';
 
 class FormSubmitButton extends React.Component {
+
+  static defaultProps = {
+    click: null,
+  };
+
   constructor(props) {
     super(props);
   }
@@ -26,5 +32,15 @@ class FormSubmitButton extends React.Component {
     );
   }
 }
+
+
+FormSubmitButton.propTypes = {
+  buttonClass: PropTypes.string,
+  inactive: PropTypes.bool,
+  click: PropTypes.func,
+  type: PropTypes.string,
+  label: PropTypes.string.isRequired
+};
+
 
 export default FormSubmitButton;

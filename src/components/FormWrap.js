@@ -5,6 +5,7 @@
 import React from "react";
 
 import FormSubmitButton from "./FormSubmitButton";
+import PropTypes from "prop-types";
 
 class FormWrap extends React.Component {
   constructor(props) {
@@ -280,5 +281,24 @@ class FormWrap extends React.Component {
     return formWrap;
   }
 }
+FormWrap.propTypes = {
+  form: PropTypes.shape({
+    onLogin: PropTypes.func,
+    onRegister: PropTypes.func,
+    onRecoverPassword: PropTypes.func,
+    loginContainerClass: PropTypes.string,
+    registerContainerClass: PropTypes.string,
+    recoverPasswordContainerClass: PropTypes.string,
+    bottomLoginContainer: PropTypes.node,
+    bottomRegisterContainer: PropTypes.node,
+    bottomRecoverPasswordContainer: PropTypes.node,
+    recoverPasswordSuccessLabel: PropTypes.shape({
+      label: PropTypes.stirng,
+      labelClass: PropTypes.stirng,
+    }),
+
+
+  })
+};
 
 export default FormWrap;

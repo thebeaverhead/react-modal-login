@@ -4,6 +4,7 @@
 
 import React from "react";
 import CloseIcon from "./CloseIcon";
+import PropTypes from 'prop-types';
 
 class CloseBtn extends React.Component {
   /**
@@ -17,6 +18,11 @@ class CloseBtn extends React.Component {
       </div>
     );
   }
+}
+
+CloseBtn.propTypes = {
+  containerClass: PropTypes.string,
+  click: PropTypes.func.isRequired
 }
 
 export default CloseBtn;

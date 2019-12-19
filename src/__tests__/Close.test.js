@@ -9,6 +9,7 @@ describe('Close component', () => {
   const shallowWrapper = shallow(
     <Close
       containerClass="RML-login-modal-close"
+      click={() => {}}
     />
   );
 
