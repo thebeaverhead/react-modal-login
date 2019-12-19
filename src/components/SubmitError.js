@@ -4,23 +4,22 @@
 
 import React from "react";
 
-
-export default class SubmitError extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
+class SubmitError extends React.Component {
 
   /**
    *
    * @constructor
    */
   render() {
-
     return (
-      <span className={this.props.containerClass} id={this.props.type + "Error"}>
+      <span
+        className={this.props.containerClass}
+        id={this.props.type + "Error"}
+      >
         {this.props.label}
       </span>
-    )
+    );
   }
-};
+}
+
+export default SubmitError;

@@ -4,22 +4,14 @@
 
 import React from "react";
 
-export default class Separator extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
+class Separator extends React.Component {
   /**
    *
    * @constructor
    */
   render() {
-
-    return (
-      <p className={this.props.containerClass}>
-        {this.props.label}
-      </p>
-    )
+    return <p className={this.props.containerClass}>{this.props.label}</p>;
   }
-};
+}
+
+export default Separator;

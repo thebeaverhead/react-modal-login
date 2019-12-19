@@ -4,8 +4,7 @@
 
 import React from "react";
 
-export default class Loader extends React.Component {
-
+class Loader extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -15,7 +14,6 @@ export default class Loader extends React.Component {
    * @constructor
    */
   render() {
-
     return (
       <span className={this.props.containerClass}>
         <svg
@@ -36,6 +34,8 @@ export default class Loader extends React.Component {
           />
         </svg>
       </span>
-    )
+    );
   }
-};
+}
+
+export default Loader;

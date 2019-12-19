@@ -3,49 +3,48 @@
  */
 
 import React from "react";
+import classnames from "classnames";
 
-
-export default class Tabs extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
+class Tabs extends React.Component {
+  /**
+   *
+   * @param callback
+   * @returns {function(...[*]=)}
+   */
+  onTabChange = callback => () => {
+    if (!this.props.inactive) {
+      callback();
+    }
+  };
 
   /**
    *
    * @constructor
    */
   render() {
-
     return (
       <div className={this.props.containerClass}>
         <div
-          className={
-            (this.props.inactive ? "disabled" : "") +
-            (this.props.currentTab === "login" ? " active" : "")
-          }
-          onClick={() => {
-            if (!this.props.inactive) {
-              this.props.loginClick();
-            }
-          }}
+          className={classnames({
+            disabled: this.props.inactive,
+            active: this.props.currentTab === "login"
+          })}
+          onClick={this.onTabChange(this.props.loginClick)}
         >
           {this.props.loginLabel}
         </div>
         <div
-          className={
-            (this.props.inactive ? "disabled" : "") +
-            (this.props.currentTab === "register" ? " active" : "")
-          }
-          onClick={() => {
-            if (!this.props.inactive) {
-              this.props.registerClick();
-            }
-          }}
+          className={classnames({
+            disabled: this.props.inactive,
+            active: this.props.currentTab === "register"
+          })}
+          onClick={this.onTabChange(this.props.registerClick)}
         >
           {this.props.registerLabel}
         </div>
       </div>
-    )
+    );
   }
-};
+}
+
+export default Tabs;

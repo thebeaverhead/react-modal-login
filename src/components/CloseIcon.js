@@ -1,14 +1,11 @@
 import React from "react";
 
-export default class CloseIcon extends React.Component {
-
-
+class CloseIcon extends React.Component {
   /**
    *
    * @constructor
    */
   render() {
-
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -31,6 +28,8 @@ export default class CloseIcon extends React.Component {
           </g>
         </g>
       </svg>
-    )
+    );
   }
-};
+}
+
+export default CloseIcon;

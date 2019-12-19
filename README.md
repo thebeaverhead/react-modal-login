@@ -9,6 +9,13 @@ in this manual.
 
 ![Demo](http://developers.thebeaverhead.com/images/demo.gif "Example usage")
 
+### Compatibility
+
+| React version | react-modal-login |
+| ------------- | ----------------- |
+| >= 16.0        | latest            |
+| < 15.0         | 1.3.4             |
+
 ### Installation
 
 ```bash
@@ -226,32 +233,26 @@ class Sample extends React.Component {
 - `aboveSocialsRegisterContainer` |_element_| - custom container above socials buttons visible on register tab
 
 - `aboveSocialsRecoverPasswordContainer` |_element_| - custom container above socials buttons visible on recover password tab
-- `newTab` |_string_| - if we'd like to change current tab somewhere else than by clicking it's tab, that's a good place.
+- `changeTab` |_func_| - Grab this component ref and launch this function if you'd like programatically change the tab.
   accepted values: _'login'_, _'register'_, _'recoverPassword'_. However if you intend to do so, you should
   clean that property afterwards. For instance:
 
 ```js
-   onSelectTab(tab) {
 
-       this.setState({
-         newTab: tab
-       }, () => {
-         this.setState({
-           newTab: null
-         })
-       })
-     }
+    <ReactModalLogin
+      ...
+      ref={(r) => this.loginModalRef = r}
+      ...
+     />
+
 ```
 
 and then:
 
 ```js
-
-        <ReactModalLogin
-          ...
-          newTab={this.state.newTab}
-          ...
-         />
+  onSelectTab(tab) {
+   this.loginModalRef.changeTab(tab);
+ }
 ```
 
 You may also achieve that in _tabs.afterChange()_ callback
@@ -355,6 +356,14 @@ You may also achieve that in _tabs.afterChange()_ callback
   - `loginLabel` |_string_| - text of login label
   - `registerLabel` |_string_| - text of register label
 
+### Common problems
+
+1. `Uncaught ReferenceError: FB is not defined` or `Cannot read property 'auth2' of undefined`.
+   This is because this component initializes the Facebook and Google on componentDidUpdate checking whether
+   the `visible` prop has changed. If you set `visible={true}` then the component will not initialize.
+   This happens to prevent initialization of FB and Google login code on page load. To solve this,
+   you can eg. `visible={this.state.visible}` and set `visible` state on `componentDidMount`.
+
 ### Notes
 
 **Social buttons API**
@@ -396,7 +405,6 @@ You may change the port from 8080 to something different in _webpack.dev.config.
 
 There is a hot reloader so you don't really need to reload the page manually since all the changes _.js and _.less files
 cause it to happen automatically.
-
 
 **Testings**
 

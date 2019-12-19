@@ -5,25 +5,18 @@
 import React from "react";
 import CloseIcon from "./CloseIcon";
 
-export default class CloseBtn extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
+class CloseBtn extends React.Component {
   /**
    *
    * @constructor
    */
   render() {
-
     return (
-      <div
-        className={this.props.containerClass}
-        onClick={() => this.props.click()}
-      >
+      <div className={this.props.containerClass} onClick={this.props.click}>
         <CloseIcon />
       </div>
-    )
+    );
   }
-};
+}
+
+export default CloseBtn;

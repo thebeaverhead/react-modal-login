@@ -8,7 +8,7 @@ import FacebookLoginButton from "./components/FacebookLoginButton";
 import GoogleLoginButton from "./components/GoogleLoginButton";
 import Tabs from "./components/Tabs";
 import CloseBtn from "./components/Close";
-
+import classnames from "classnames";
 import SubmitError from "./components/SubmitError";
 
 import Separator from "./components/Separator";
@@ -19,6 +19,10 @@ import FormWrap from "./components/FormWrap";
 require("./less/style.less");
 
 class ReactModalLogin extends React.Component {
+  /**
+   *
+   * @param props
+   */
   constructor(props) {
     super(props);
 
@@ -28,22 +32,15 @@ class ReactModalLogin extends React.Component {
     };
 
     this.keyHandler = this.keyHandler.bind(this);
-    this.onCloseModal = this.onCloseModal.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.newTab && nextProps.newTab !== this.state.currentTab) {
-      this.setState({
-        currentTab: nextProps.newTab
-      });
-    }
-
-    if (!this.props.visible && nextProps.visible) {
-      this.setState({
-        currentTab: this.props.initialTab ? this.props.initialTab : "login"
-      });
-    }
-  }
+  /**
+   *
+   * @param newTab
+   */
+  changeTab = newTab => {
+    this.state({ currentTab: newTab });
+  };
 
   /**
    *
@@ -186,7 +183,7 @@ class ReactModalLogin extends React.Component {
   /**
    *
    */
-  tabsLoginClick() {
+  tabsLoginClick = () => {
     if (this.props.tabs && this.props.tabs.onLoginClickBeforeTransition) {
       this.props.tabs.onLoginClickBeforeTransition();
     }
@@ -201,12 +198,12 @@ class ReactModalLogin extends React.Component {
         }
       }
     );
-  }
+  };
 
   /**
    *
    */
-  tabsRegisterClick() {
+  tabsRegisterClick = () => {
     if (this.props.tabs && this.props.tabs.onRegisterClickBeforeTransition) {
       this.props.tabs.onRegisterClickBeforeTransition();
     }
@@ -221,28 +218,32 @@ class ReactModalLogin extends React.Component {
         }
       }
     );
-  }
+  };
 
-  recoverPasswordAnchorClick() {
+  recoverPasswordAnchorClick = () => {
     this.setState({
       currentTab: "recoverPassword"
     });
-  }
+  };
 
   /**
    *
    */
-  onCloseModal() {
+  onCloseModal = () => {
     if (this.props.onBeforeCloseModal) {
       this.props.onBeforeCloseModal();
     }
 
     this.props.onCloseModal();
 
+    this.state.currentTab = this.props.initialTab
+      ? this.props.initialTab
+      : "login";
+
     if (this.props.onAfterCloseModal) {
       this.props.onAfterCloseModal();
     }
-  }
+  };
 
   /**
    *
@@ -259,8 +260,8 @@ class ReactModalLogin extends React.Component {
             : "RML-login-modal-mode"
         }
         inactive={this.props.loading ? this.props.loading : false}
-        loginClick={this.tabsLoginClick.bind(this)}
-        registerClick={this.tabsRegisterClick.bind(this)}
+        loginClick={this.tabsLoginClick}
+        registerClick={this.tabsRegisterClick}
         currentTab={this.state.currentTab}
         loginLabel={
           this.props.tabs.loginLabel ? this.props.tabs.loginLabel : "Sign in"
@@ -274,9 +275,7 @@ class ReactModalLogin extends React.Component {
     ) : null;
 
     const closeBtn = this.props.closeBtn.element ? (
-      <div onClick={() => this.onCloseModal()}>
-        {this.props.closeBtn.element}
-      </div>
+      <div onClick={this.onCloseModal}>{this.props.closeBtn.element}</div>
     ) : (
       <CloseBtn
         containerClass={
@@ -284,7 +283,7 @@ class ReactModalLogin extends React.Component {
             ? this.props.closeBtn.containerClass
             : "RML-login-modal-close"
         }
-        click={() => this.onCloseModal()}
+        click={this.onCloseModal}
       />
     );
 
@@ -430,9 +429,7 @@ class ReactModalLogin extends React.Component {
           loader={loader}
           errorWrap={errorWrap}
           visible={this.props.visible}
-          recoverPasswordAnchorClick={this.recoverPasswordAnchorClick.bind(
-            this
-          )}
+          recoverPasswordAnchorClick={this.recoverPasswordAnchorClick}
           recoverPasswordSuccessLabel={
             this.props.form.recoverPasswordSuccessLabel
           }
@@ -475,11 +472,10 @@ class ReactModalLogin extends React.Component {
     return (
       <div
         id={this.props.mainWrapId ? this.props.mainWrapId : ""}
-        className={
-          (this.props.mainWrapClass
-            ? this.props.mainWrapClass
-            : "RML-login-modal-wrap ") + (this.props.visible ? "" : "hidden")
-        }
+        className={classnames(this.props.mainWrapClass, {
+          "RML-login-modal-wrap": !this.props.mainWrapClass,
+          hidden: !this.props.visible
+        })}
       >
         <div
           className={
@@ -487,10 +483,15 @@ class ReactModalLogin extends React.Component {
               ? this.props.overlayClass
               : "RML-login-modal-overlay"
           }
-          onClick={() => this.onCloseModal()}
+          onClick={this.onCloseModal}
         />
 
-        <div className={this.props.visible ? "RML-login-modal-box" : "hidden"}>
+        <div
+          className={classnames({
+            "RML-login-modal-box": this.props.visible,
+            hidden: !this.props.visible
+          })}
+        >
           <div
             className={
               this.props.visible ? "RML-login-modal-box-content" : "hidden"
@@ -538,8 +539,6 @@ ReactModalLogin.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
   onBeforeCloseModal: PropTypes.func,
   onAfterCloseModal: PropTypes.func,
-
-  newTab: PropTypes.string,
 
   overlayClass: PropTypes.string,
 

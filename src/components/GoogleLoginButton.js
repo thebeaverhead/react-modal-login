@@ -5,8 +5,7 @@
 import React from "react";
 import GoogleIcon from "./GoogleIcon";
 
-export default class GoogleLoginButton extends React.Component {
-
+class GoogleLoginButton extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -15,57 +14,58 @@ export default class GoogleLoginButton extends React.Component {
    *
    * @constructor
    */
-  GoogleLoginDialog() {
-
+  GoogleLoginDialog = () => {
     this.props.onStartLoading();
 
     if (window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
-
       if (this.props.onSuccess) {
-
         this.props.onSuccess(
-          'google',
-          window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse()
+          "google",
+          window.gapi.auth2
+            .getAuthInstance()
+            .currentUser.get()
+            .getAuthResponse()
         );
       }
-
     } else {
-
-      window.gapi.auth2.getAuthInstance().signIn().then(
-        ()=> {
-
-          if (this.props.onSuccess) {
-
-            this.props.onSuccess(
-              'google',
-              window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse()
-            );
+      window.gapi.auth2
+        .getAuthInstance()
+        .signIn()
+        .then(
+          () => {
+            if (this.props.onSuccess) {
+              this.props.onSuccess(
+                "google",
+                window.gapi.auth2
+                  .getAuthInstance()
+                  .currentUser.get()
+                  .getAuthResponse()
+              );
+            }
+          },
+          error => {
+            this.props.onFail("google", error);
           }
-        },
-        (error)=> {
-          this.props.onFail('google', error);
-        },
-      );
+        );
     }
-  }
+  };
 
   /**
    *
    * @returns {XML}
    */
-  render () {
-
+  render() {
     return (
       <button
         className={this.props.btnClass}
         disabled={this.props.inactive}
-        onClick={() => this.GoogleLoginDialog()}
+        onClick={this.GoogleLoginDialog}
       >
         <GoogleIcon />
-        <span>
-          {this.props.label}
-        </span>
+        <span>{this.props.label}</span>
       </button>
-    )
+    );
   }
-};
+}
+
+export default GoogleLoginButton;

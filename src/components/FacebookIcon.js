@@ -1,13 +1,11 @@
 import React from "react";
 
-export default class FacebookIcon extends React.Component {
-
+class FacebookIcon extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +25,8 @@ export default class FacebookIcon extends React.Component {
           fill="#3b5998"
         />
       </svg>
-    )
+    );
   }
-
 }
+
+export default FacebookIcon;
