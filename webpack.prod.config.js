@@ -21,6 +21,7 @@ module.exports = {
           options: {
             presets: ['env'],
             plugins: [
+              "transform-class-properties",
               "transform-object-rest-spread",
               "transform-react-jsx"
             ]
