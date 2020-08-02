@@ -91,6 +91,14 @@ class ReactModalLogin extends React.Component {
    *
    */
   componentDidUpdate(prevProps, prevState) {
+    
+    /* reset currentTab after visible is toggled on */
+    if(prevProps.visible !== this.props.visible && this.state.visible){
+      this.setState({
+        currentTab: this.props.initialTab ? this.props.initialTab : "login"
+      })
+    }
+    
     /* Initialize Facebook */
     if (
       this.props.providers &&
