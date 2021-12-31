@@ -1,6 +1,6 @@
 {
   "name": "react-modal-login",
-  "version": "1.4.5",
+  "version": "2.0.0",
   "description": "A highly customizable react login modal with social buttons",
   "main": "dist/react-modal-login.js",
   "dependencies": {
