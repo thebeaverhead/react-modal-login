@@ -16,6 +16,14 @@ in this manual.
 | >= 16.0        | latest            |
 | < 15.0         | 1.3.4             |
 
+### v2 breaking changes:
+- Styles are not embedded into bundle. If you with to use default styles, import them:
+```js
+import ReactModalLogin from "react-modal-login";
+import "react-modal-login/react-modal-login.css";
+
+```
+
 ### Installation
 
 ```bash
@@ -41,7 +49,7 @@ const facebook = {
   appId: "YOUR FB APP ID GOES HERE",
   cookie: true,
   xfbml: true,
-  version: "v3.2",
+  version: "v12.0",
   scope: "email"
 };
 
