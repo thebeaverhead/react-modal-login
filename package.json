@@ -54,7 +54,6 @@
     "source-map-loader": "^3.0.0",
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.0.2",
-    "terser-webpack-plugin": "^5.2.5",
     "web-vitals": "^2.1.2",
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
@@ -164,9 +163,11 @@
       "email": "piotr.pozniak@thebeaverhead.com"
     }
   ],
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
+  "devDependencies": {
+    "@babel/plugin-transform-object-assign": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "@babel/preset-react": "^7.16.7",
+    "terser-webpack-plugin": "^5.3.0",
+    "webpack-cli": "^4.9.1"
   }
 }

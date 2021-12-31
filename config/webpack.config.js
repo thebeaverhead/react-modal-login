@@ -226,6 +226,7 @@ module.exports = function (webpackEnv) {
             .replace(/\\/g, '/')
         : isEnvDevelopment &&
         (info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
+      libraryTarget: "commonjs2",
     },
     cache: {
       type: 'filesystem',
@@ -317,6 +318,7 @@ module.exports = function (webpackEnv) {
           'scheduler/tracing': 'scheduler/tracing-profiling',
         }),
         ...(modules.webpackAliases || {}),
+        appScripts: 'src/react-modal-login.js'
       },
       plugins: [
         // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -410,7 +412,10 @@ module.exports = function (webpackEnv) {
                   'babel-preset-react-app/webpack-overrides'
                 ),
                 presets: [
+                  '@babel/env',
+                  '@babel/preset-react',
                   [
+
                     require.resolve('babel-preset-react-app'),
                     {
                       runtime: hasJsxRuntime ? 'automatic' : 'classic',
