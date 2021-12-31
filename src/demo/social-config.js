@@ -1,8 +1,8 @@
 const facebook = {
-  appId: '329420117573382',
+  appId: '4500335846750754',
   cookie: true,
   xfbml: true,
-  version: 'v3.2',
+  version: 'v12.0',
   scope: 'email'
 };
 

@@ -14,6 +14,7 @@ const FacebookLoginButton = (props) => {
   const FBLoginDialog = () => {
     props.onStartLoading();
 
+    console.log(window);
     window.FB.login(
       (response) => {
         if (response.status == "connected" && props.onSuccess) {

@@ -83,9 +83,10 @@ const Sample = (props) => {
   const onLoginSuccess = (method, response) => {
     console.log("onLoginSuccess()");
 
-    closeModal();
     setState({
       ...state,
+      showModal: false,
+      error: null,
       loggedIn: method,
       loading: false,
     });
@@ -127,10 +128,12 @@ const Sample = (props) => {
   };
 
   const closeModal = () => {
+    console.log('closeModal()');
     setState({
       ...state,
       showModal: false,
       error: null,
+      loading: false,
     });
   };
 
@@ -145,6 +148,7 @@ const Sample = (props) => {
   );
 
   const isLoading = state.loading;
+
 
   return (
     <div>

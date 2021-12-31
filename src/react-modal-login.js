@@ -57,30 +57,6 @@ const ReactModalLogin = (props) => {
       document.addEventListener("keydown", keyHandler(onEnter, onEscape));
     }
 
-    /* Initialize Google */
-    if (
-      props.providers &&
-      props.providers.facebook &&
-      typeof window.FB === "undefined" &&
-      props.visible &&
-      !props.loading
-    ) {
-      props.startLoading();
-      initFBConnect();
-    }
-
-    /* Initialize Google */
-    if (
-      props.providers &&
-      props.providers.google &&
-      typeof window.gapi === "undefined" &&
-      props.visible &&
-      !props.loading
-    ) {
-      props.startLoading();
-      initGoogleConnect();
-    }
-
     return () => document.removeEventListener("keydown", keyHandler);
   }, []);
 
@@ -92,9 +68,37 @@ const ReactModalLogin = (props) => {
     setState({ ...state, currentTab: newTab });
   };
 
+
+
   useEffect(() => {
+
     /* reset currentTab after visible is toggled on */
     if (props.visible) {
+
+      /* Initialize Google */
+      if (
+        props.providers &&
+        props.providers.facebook &&
+        typeof window.FB === "undefined" &&
+        props.visible &&
+        !props.loading
+      ) {
+        props.startLoading();
+        initFBConnect();
+      }
+
+      /* Initialize Google */
+      if (
+        props.providers &&
+        props.providers.google &&
+        typeof window.gapi === "undefined" &&
+        props.visible &&
+        !props.loading
+      ) {
+        props.startLoading();
+        initGoogleConnect();
+      }
+
       setState({
         ...state,
         currentTab: props.initialTab || "login",
@@ -145,6 +149,7 @@ const ReactModalLogin = (props) => {
    * @constructor
    */
   const initFBConnect = () => {
+
     window.fbAsyncInit = () => {
       window.FB.init({
         ...props.providers.facebook.config,
@@ -152,20 +157,13 @@ const ReactModalLogin = (props) => {
 
       window.FB.AppEvents.logPageView();
     };
-    ((d, s, id) => {
-      let js,
-        fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {
-        return;
-      }
-      js = d.createElement(s);
-      js.id = id;
-      js.onload = () => {
-        props.finishLoading();
-      };
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
       js.src = "https://connect.facebook.net/en_US/sdk.js";
       fjs.parentNode.insertBefore(js, fjs);
-    })(document, "script", "facebook-jssdk");
+    }(document, 'script', 'facebook-jssdk'));
   };
 
   /**
