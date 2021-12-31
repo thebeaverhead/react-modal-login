@@ -4,25 +4,19 @@
 
 import React from "react";
 import CloseIcon from "./CloseIcon";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-class CloseBtn extends React.Component {
-  /**
-   *
-   * @constructor
-   */
-  render() {
-    return (
-      <div className={this.props.containerClass} onClick={this.props.click}>
-        <CloseIcon />
-      </div>
-    );
-  }
-}
+const CloseBtn = (props) => {
+  return (
+    <div className={props.containerClass} onClick={props.click}>
+      <CloseIcon />
+    </div>
+  );
+};
 
 CloseBtn.propTypes = {
   containerClass: PropTypes.string,
-  click: PropTypes.func.isRequired
-}
+  click: PropTypes.func.isRequired,
+};
 
 export default CloseBtn;

@@ -4,43 +4,47 @@
 
 import React from "react";
 import FacebookIcon from "./FacebookIcon";
+import PropTypes from "prop-types";
 
-class FacebookLoginButton extends React.Component {
+const FacebookLoginButton = (props) => {
   /**
    *
    * @constructor
    */
-  FBLoginDialog = () => {
-    this.props.onStartLoading();
+  const FBLoginDialog = () => {
+    props.onStartLoading();
 
-    FB.login(
-      response => {
-        if (response.status == "connected" && this.props.onSuccess) {
-          this.props.onSuccess("facebook", response);
-        } else if (response.status != "connected" && this.props.onFail) {
-          this.props.onFail("facebook", response);
+    window.FB.login(
+      (response) => {
+        if (response.status == "connected" && props.onSuccess) {
+          props.onSuccess("facebook", response);
+        } else if (response.status != "connected" && props.onFail) {
+          props.onFail("facebook", response);
         }
       },
-      { scope: this.props.scope }
+      { scope: props.scope }
     );
   };
 
-  /**
-   *
-   * @constructor
-   */
-  render() {
-    return (
-      <button
-        className={this.props.btnClass}
-        disabled={this.props.inactive}
-        onClick={this.FBLoginDialog}
-      >
-        <FacebookIcon />
-        <span>{this.props.label}</span>
-      </button>
-    );
-  }
+  return (
+    <button
+      className={props.btnClass}
+      disabled={props.inactive}
+      onClick={FBLoginDialog}
+    >
+      <FacebookIcon />
+      <span>{props.label}</span>
+    </button>
+  );
+};
+
+FacebookLoginButton.propTypes = {
+  onStartLoading: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
+  onFail: PropTypes.func,
+  label: PropTypes.string.isRequired,
+  btnClass: PropTypes.string.isRequired,
+  inactive: PropTypes.bool.isRequired,
 }
 
 export default FacebookLoginButton;

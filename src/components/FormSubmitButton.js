@@ -3,44 +3,31 @@
  */
 
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-class FormSubmitButton extends React.Component {
+const FormSubmitButton = (props) => {
+  return (
+    <button
+      className={props.buttonClass}
+      disabled={props.inactive}
+      onClick={props.click}
+      id={props.type + "Submit"}
+    >
+      {props.label}
+    </button>
+  );
+};
 
-  static defaultProps = {
-    click: null,
-  };
-
-  constructor(props) {
-    super(props);
-  }
-
-  /**
-   *
-   * @constructor
-   */
-  render() {
-    return (
-      <button
-        className={this.props.buttonClass}
-        disabled={this.props.inactive}
-        onClick={this.props.click}
-        id={this.props.type + "Submit"}
-      >
-        {this.props.label}
-      </button>
-    );
-  }
-}
-
+FormSubmitButton.defaultProps = {
+  click: null,
+};
 
 FormSubmitButton.propTypes = {
   buttonClass: PropTypes.string,
   inactive: PropTypes.bool,
   click: PropTypes.func,
   type: PropTypes.string,
-  label: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
 };
-
 
 export default FormSubmitButton;

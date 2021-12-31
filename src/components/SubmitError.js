@@ -3,23 +3,20 @@
  */
 
 import React from "react";
+import PropTypes from "prop-types";
 
-class SubmitError extends React.Component {
+const SubmitError = (props) => {
+  return (
+    <span className={props.containerClass} id={props.type + "Error"}>
+      {props.label}
+    </span>
+  );
+};
 
-  /**
-   *
-   * @constructor
-   */
-  render() {
-    return (
-      <span
-        className={this.props.containerClass}
-        id={this.props.type + "Error"}
-      >
-        {this.props.label}
-      </span>
-    );
-  }
-}
+SubmitError.propTypes = {
+  containerClass: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+};
 
 export default SubmitError;

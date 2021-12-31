@@ -1,9 +1,10 @@
-@import "mixins";
+@import "./mixins.scss";
+@import "./variables.scss";
 
 .RML-btn {
   display: inline-block;
   margin-bottom: 0; // For input.btn
-  font-weight: @btn-font-weight;
+  font-weight: $btn-font-weight;
   text-align: center;
   vertical-align: middle;
   touch-action: manipulation;
@@ -11,8 +12,8 @@
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
   white-space: nowrap;
-  .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @btn-border-radius-base);
-  .noselect;
+  @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $btn-border-radius-base);
+  @include noselect;
 
   &,
   &:active,
@@ -26,7 +27,7 @@
   &:hover,
   &:focus,
   &.focus {
-    color: @btn-default-color;
+    color: $btn-default-color;
     text-decoration: none;
     outline: none;
   }
@@ -35,18 +36,18 @@
   &.active {
     outline: none;
     background-image: none;
-    .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+    @include box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
   }
 
   &.disabled,
   &[disabled],
   fieldset[disabled] & {
-    cursor: @cursor-disabled;
-    .opacity(.65);
-    .box-shadow(none);
+    cursor: $cursor-disabled;
+    @include opacity(.65);
+    @include box-shadow(none);
   }
 
-  a& {
+  a {
     &.disabled,
     fieldset[disabled] & {
       pointer-events: none; // Future-proof disabling of clicks on `<a>` elements
@@ -61,8 +62,7 @@
   z-index: 10;
   top: 0;
 
-  .keyframes(login-form-fade-in;
-    {
+  @include keyframes(login-form-fade-in) {
       0% {
         opacity: 0;
       }
@@ -73,10 +73,8 @@
         opacity: 1;
       }
     };
-  );
 
-  .keyframes(fade-in;
-    {
+  @include keyframes(fade-in) {
       0% {
         opacity: 0;
       }
@@ -86,9 +84,8 @@
       100% {
         opacity: 1;
       }
-    };
-  );
-}
+    }
+  }
 
 .RML-form-group {
   margin-bottom: 15px;
@@ -114,7 +111,7 @@
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
 
-  .transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s;);
+  @include transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);
 }
 
 .RML-login-modal-overlay {
@@ -122,7 +119,7 @@
   width: 100%;
   height: 100%;
   z-index: 1;
-  background-color: @color-p1-darker;
+  background-color: $color-p1-darker;
   opacity: 0.6;
   left: 0;
 }
@@ -132,14 +129,14 @@
   font-family: 'Arial';
   position: fixed;
   width: 400px;
-  max-width: calc(~"100% - 40px");
-  max-height: calc(~"100% - 30px");
+  max-width: calc(100% - 40px);
+  max-height: calc(100% - 30px);
   background-color: white;
-  border: 1px solid @color-p1-dark;
+  border: 1px solid $color-p1-dark;
   z-index: 2;
-  -webkit-box-shadow: 0 0px 6px @color-p2-darker;
-  -moz-box-shadow: 0 0px 6px @color-p2-darker;
-  box-shadow: 0 0px 6px @color-p2-darker;
+  -webkit-box-shadow: 0 0px 6px $color-p2-darker;
+  -moz-box-shadow: 0 0px 6px $color-p2-darker;
+  box-shadow: 0 0px 6px $color-p2-darker;
   border-radius: 4px;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
@@ -150,14 +147,14 @@
     opacity: 1;
 
     button {
-      .transition(background-color .5s);
+      @include transition(background-color .5s);
       float: right;
     }
 
-    .animation(login-form-fade-in 2s forwards);
+    @include animation(login-form-fade-in 2s forwards);
   }
 
-  .keyframes(enlarge-box;
+  @include keyframes(enlarge-box)
     {
       from {
         width: 1px;
@@ -165,19 +162,19 @@
       }
       to {
         width: 400px;
-        max-height: calc(~"100% - 30px");
+        max-height: calc(100% - 30px);
       }
     };
-  );
 
-  .animation(enlarge-box 0.9s forwards);
+
+  @include animation(enlarge-box 0.9s forwards);
 }
 
 .RML-login-modal-error {
   display: inline-block;
   //max-width: calc(~"100% - 75px");
   padding-right: 5px;
-  color: @color-p2-normal-a;
+  color: $color-p2-normal-a;
   font-size: 14px;
   width: 100%;
   font-weight: bold;
@@ -191,23 +188,23 @@
 }
 
 .RML-recover-password-anchor {
-  .transition(all .5s ease);
+  @include transition(all .5s ease);
 
   font-size: 14px;
-  color: @color-p1-dark;
+  color: $color-p1-dark;
   cursor: pointer;
   text-transform: capitalize;
   font-weight: bold;
 
   &:hover, &:active, &:focus {
-    color: @color-p1-normal-b;
+    color: $color-p1-normal-b;
   }
 }
 
 .RML-recover-password-success-label {
   font-size: 14px;
   margin-bottom: 15px;
-  color: @color-p1-dark;
+  color: $color-p1-dark;
   display: block;
   font-weight: bold;
 }
@@ -218,16 +215,16 @@
   z-index: 1;
   color: white;
   border-radius: 0 2px 0 4px;
-  background-color: @color-p1-dark;
+  background-color: $color-p1-dark;
   width: 24px;
   text-align: center;
   height: 24px;
   cursor: pointer;
 
-  .transition(background-color .5s);
+  @include transition(background-color .5s);
 
   &:hover {
-    background-color: @color-p1-darker;
+    background-color: $color-p1-darker;
   }
 
   svg {
@@ -243,30 +240,30 @@
 .RML-login-modal-mode {
 
   &> div {
-    .noselect;
+    @include noselect;
     display: inline-block;
     width: 50%;
-    background-color: fadeout(@color-p1-dark, 60%);
+    background-color: transparentize($color-p1-dark, 0.6);
     padding: 12px 0;
-    color: @color-p1-darker;
+    color: $color-p1-darker;
     font-weight: 100;
     font-size: 16px;
     text-align: center;
-    border-bottom: 1px solid @color-p1-normal-b;
+    border-bottom: 1px solid $color-p1-normal-b;
     cursor: pointer;
     box-sizing: border-box;
     vertical-align: top;
     //display: none;
     //visibility: hidden;
 
-    .transition(background-color .5s);
+    @include transition(background-color .5s);
 
     &:hover:not(.disabled) {
-      background-color: fadeout(@color-p1-dark, 80%);
+      background-color: transparentize($color-p1-dark, 0.8);
     }
 
     &.active {
-      background-color: fadeout(@color-p1-dark, 80%);
+      background-color: transparentize($color-p1-dark, 0.8);
       cursor: default;
     }
 
@@ -279,15 +276,15 @@
     }
     &:nth-child(2) {
       border-radius: 0 4px 0 0;
-      border-left: 1px solid @color-p1-normal-b;
+      border-left: 1px solid $color-p1-normal-b;
     }
 
-    //.animation(fade-in 2s forwards);
+    //@include animation(fade-in 2s forwards);
   }
 }
 
 .RML-social-modal-content-wrap {
-  max-height: calc(~"100vh - 79px");
+  max-height: calc(100vh - 79px);
   overflow-y: auto;
   padding: 25px 30px 30px 30px;
 
@@ -295,29 +292,29 @@
     padding: 20px 15px 20px 15px;
   }
 
-  //.animation(fade-in 2s forwards);
+  //@include animation(fade-in 2s forwards);
 }
 
 .RML-login-modal-box-content {
-  .animation(fade-in 1.2s forwards);
+  @include animation(fade-in 1.2s forwards);
 }
 
 .RML-google-login-button {
-  .RML-social-login-button;
-  background-color: @color-google;
+  @extend .RML-social-login-button;
+  background-color: $color-google;
 
   svg {
     padding: 0px;
   }
 
   &:hover {
-    background-color: fadeout(@color-google, 20%);
+    background-color: transparentize($color-google, 0.2);
   }
 }
 
 .RML-social-login-button {
-  .RML-btn;
-  .noselect;
+  @extend .RML-btn;
+  @include noselect;
 
   width: 100%;
   color: white;
@@ -325,7 +322,7 @@
   border: none;
   padding: 8px 10px;
   text-align: left;
-  .transition(background-color .5s);
+  @include transition(background-color .5s);
 
   &:hover, &:focus {
     color: white;
@@ -353,25 +350,25 @@
 }
 
 .RML-facebook-login-button {
-  .RML-social-login-button;
-  background-color: @color-facebook;
+  @extend .RML-social-login-button;
+  background-color: $color-facebook;
 
   svg {
     //padding: 3px;
     path {
-      //fill: @color-facebook;
+      //fill: $color-facebook;
     }
   }
 
   &:hover {
-    background-color: fadeout(@color-facebook, 20%);
+    background-color: transparentize($color-facebook, 0.2);
   }
 }
 
 .RML-social-methods-separator {
   text-align: center;
   font-size: 16px;
-  color: @color-p4-dark;
+  color: $color-p4-dark;
   margin-top: 12px;
   margin-bottom: 12px;
 }
@@ -389,13 +386,13 @@
   circle {
 
     @keyframes dash {
-      0% { stroke-dashoffset: @offset; }
+      0% { stroke-dashoffset: $offset; }
       50% {
-        stroke-dashoffset: @offset/4;
+        stroke-dashoffset: $offset/4;
         transform:rotate(135deg);
       }
       100% {
-        stroke-dashoffset: @offset;
+        stroke-dashoffset: $offset;
         transform:rotate(450deg);
       }
     };

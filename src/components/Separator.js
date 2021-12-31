@@ -3,15 +3,18 @@
  */
 
 import React from "react";
+import PropTypes from "prop-types";
 
-class Separator extends React.Component {
-  /**
-   *
-   * @constructor
-   */
-  render() {
-    return <p className={this.props.containerClass}>{this.props.label}</p>;
-  }
+const Separator = props => {
+
+
+    return <p className={props.containerClass}>{props.label}</p>;
+
 }
+
+Separator.propTypes = {
+  containerClass: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+};
 
 export default Separator;

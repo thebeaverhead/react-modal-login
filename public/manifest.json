@@ -1,0 +1,11 @@
+{
+  "short_name": "React Modal Login",
+  "name": "React Modal Login",
+  "icons": [
+
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

@@ -4,22 +4,15 @@
 
 import React from "react";
 import GoogleIcon from "./GoogleIcon";
+import PropTypes from "prop-types";
 
-class GoogleLoginButton extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  /**
-   *
-   * @constructor
-   */
-  GoogleLoginDialog = () => {
+const GoogleLoginButton = (props) => {
+  const GoogleLoginDialog = () => {
     this.props.onStartLoading();
 
     if (window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
-      if (this.props.onSuccess) {
-        this.props.onSuccess(
+      if (props.onSuccess) {
+        props.onSuccess(
           "google",
           window.gapi.auth2
             .getAuthInstance()
@@ -33,8 +26,8 @@ class GoogleLoginButton extends React.Component {
         .signIn()
         .then(
           () => {
-            if (this.props.onSuccess) {
-              this.props.onSuccess(
+            if (props.onSuccess) {
+              props.onSuccess(
                 "google",
                 window.gapi.auth2
                   .getAuthInstance()
@@ -43,29 +36,32 @@ class GoogleLoginButton extends React.Component {
               );
             }
           },
-          error => {
-            this.props.onFail("google", error);
+          (error) => {
+            props.onFail("google", error);
           }
         );
     }
   };
 
-  /**
-   *
-   * @returns {XML}
-   */
-  render() {
-    return (
-      <button
-        className={this.props.btnClass}
-        disabled={this.props.inactive}
-        onClick={this.GoogleLoginDialog}
-      >
-        <GoogleIcon />
-        <span>{this.props.label}</span>
-      </button>
-    );
-  }
-}
+  return (
+    <button
+      className={props.btnClass}
+      disabled={props.inactive}
+      onClick={GoogleLoginDialog}
+    >
+      <GoogleIcon />
+      <span>{props.label}</span>
+    </button>
+  );
+};
+
+GoogleLoginButton.propTypes = {
+  onStartLoading: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func,
+  onFail: PropTypes.func,
+  label: PropTypes.string.isRequired,
+  btnClass: PropTypes.string.isRequired,
+  inactive: PropTypes.bool.isRequired,
+};
 
 export default GoogleLoginButton;
