@@ -20,7 +20,7 @@ in this manual.
 - Styles are not embedded into bundle. If you with to use default styles, import them:
 ```js
 import ReactModalLogin from "react-modal-login";
-import "react-modal-login/react-modal-login.css";
+import "react-modal-login/dist/react-modal-login.css";
 
 ```
 
