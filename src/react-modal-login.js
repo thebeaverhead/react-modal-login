@@ -21,6 +21,7 @@ import FormWrap from "./components/FormWrap";
  * @param e
  */
 const keyHandler = (onEscape, onEnter) => (e) => {
+  console.log('keyHandler');
   e = e || window.event;
 
   let isEscape = false;
@@ -119,6 +120,9 @@ const ReactModalLogin = (props) => {
 
 
   const onEnter = useCallback(() => {
+
+    console.log('onEnter');
+
     if (
       state.currentTab === "register" &&
       props.form &&
@@ -136,6 +140,7 @@ const ReactModalLogin = (props) => {
 
 
   const onEscape = useCallback(() => {
+    console.log('onEscape');
     onCloseModal();
   }, []);
 
