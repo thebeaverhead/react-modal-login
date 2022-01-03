@@ -45,26 +45,26 @@ const keyHandler = (onEscape, onEnter) => (e) => {
 };
 
 const ReactModalLogin = (props) => {
+
+  const [initialized, setInitialized] = useState(false);
+
   const [state, setState] = useState({
     currentTab: props.initialTab ? props.initialTab : "login",
     newTab: props.newTab,
-    initialized: false,
   });
 
   useEffect(() => {
-    if (!state.initialized) {
-      setState({ initialized: true });
+    if (!initialized) {
+      setInitialized(true);
     }
-  }, []);
+  }, [initialized]);
 
   useEffect(() => {
-    console.log('effect2', state.initialized, props.visible)
-    if (state.initialized && props.visible) {
+    if (initialized && props.visible) {
       document.addEventListener("keydown", keyHandler(onEscape, onEnter));
-
       return () => document.removeEventListener("keydown", keyHandler);
     }
-  }, [props.visible, state.initialized]);
+  }, [props.visible, initialized]);
 
 
   useEffect(() => {
