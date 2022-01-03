@@ -1,7 +1,7 @@
 /**
  * Created by meller.olaf@gmail.com on 11/22/2017.
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 
 import FacebookLoginButton from "./components/FacebookLoginButton";
@@ -20,7 +20,7 @@ import FormWrap from "./components/FormWrap";
  *
  * @param e
  */
-const keyHandler = (e) => (onEscape, onEnter) => {
+const keyHandler = (onEscape, onEnter) => (e) => {
   e = e || window.event;
 
   let isEscape = false;
@@ -37,6 +37,7 @@ const keyHandler = (e) => (onEscape, onEnter) => {
   if (isEscape) {
     onEscape();
   }
+
   if (isEnter) {
     onEnter();
   }
@@ -46,34 +47,27 @@ const ReactModalLogin = (props) => {
   const [state, setState] = useState({
     currentTab: props.initialTab ? props.initialTab : "login",
     newTab: props.newTab,
+    initialized: false,
   });
 
-
-  //this.keyHandler = this.keyHandler.bind(this);
-
   useEffect(() => {
-    if (props.visible) {
-      document.addEventListener("keydown", keyHandler(onEnter, onEscape));
+    if (!state.initialized) {
+      setState({ initialized: true });
     }
-
-    return () => document.removeEventListener("keydown", keyHandler);
   }, []);
 
-  /**
-   *
-   * @param newTab
-   */
-  const changeTab = (newTab) => {
-    setState({ ...state, currentTab: newTab });
-  };
+  useEffect(() => {
+    if (state.initialized && props.visible) {
+      document.addEventListener("keydown", keyHandler(onEscape, onEnter));
 
+      return () => document.removeEventListener("keydown", keyHandler);
+    }
+  }, [props.visible, state.initialized]);
 
 
   useEffect(() => {
-
     /* reset currentTab after visible is toggled on */
     if (props.visible) {
-
       /* Initialize Google */
       if (
         props.providers &&
@@ -123,7 +117,8 @@ const ReactModalLogin = (props) => {
     }
   }, [state.currentTab]);
 
-  const onEnter = () => {
+
+  const onEnter = useCallback(() => {
     if (
       state.currentTab === "register" &&
       props.form &&
@@ -137,18 +132,18 @@ const ReactModalLogin = (props) => {
     ) {
       props.form.onLogin();
     }
-  };
+  }, []);
 
-  const onEscape = () => {
+
+  const onEscape = useCallback(() => {
     onCloseModal();
-  };
+  }, []);
 
   /**
    *
    * @constructor
    */
   const initFBConnect = () => {
-
     window.fbAsyncInit = () => {
       window.FB.init({
         ...props.providers.facebook.config,
@@ -156,13 +151,17 @@ const ReactModalLogin = (props) => {
 
       window.FB.AppEvents.logPageView();
     };
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
+    (function (d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
       js.src = "https://connect.facebook.net/en_US/sdk.js";
       fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+    })(document, "script", "facebook-jssdk");
   };
 
   /**
