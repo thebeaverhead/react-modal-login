@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 const GoogleLoginButton = (props) => {
   const GoogleLoginDialog = () => {
-    this.props.onStartLoading();
+    props.onStartLoading();
 
     if (window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
       if (props.onSuccess) {
