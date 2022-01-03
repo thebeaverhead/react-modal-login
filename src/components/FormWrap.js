@@ -29,6 +29,16 @@ const FormWrap = (props) => {
     }
   }, [props.visible]);
 
+  /**
+   *
+   * @param e
+   */
+  const onLoginClick = (e) => {
+    if (formProps.onLogin) {
+      formProps.onLogin();
+    }
+  };
+
   const formProps = props.form;
 
   const loginBtn =
@@ -41,7 +51,7 @@ const FormWrap = (props) => {
         }
         type="login"
         inactive={props.inactive}
-        click={formProps.onLogin ? formProps.onLogin : null}
+        click={onLoginClick}
         label={formProps.loginBtn.label ? formProps.loginBtn.label : "Sign in"}
       />
     ) : null;

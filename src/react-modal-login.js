@@ -58,6 +58,7 @@ const ReactModalLogin = (props) => {
   }, []);
 
   useEffect(() => {
+    console.log('effect2', state.initialized, props.visible)
     if (state.initialized && props.visible) {
       document.addEventListener("keydown", keyHandler(onEscape, onEnter));
 

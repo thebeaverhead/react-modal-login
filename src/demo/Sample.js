@@ -13,7 +13,9 @@ const Sample = (props) => {
     recoverPasswordSuccess: null,
   });
 
-  const onLogin = () => {
+  const onLogin = async (e, a, c) => {
+
+    console.log(e, a, c);
     console.log("onLogin()");
     console.log("email: " + document.querySelector("#email").value);
     console.log("password: " + document.querySelector("#password").value);
