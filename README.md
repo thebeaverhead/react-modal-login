@@ -18,7 +18,7 @@ in this manual.
 | < 15.0        | 1.3.4             |
 
 ### v2 breaking changes:
-- Styles are not embedded into bundle. If you with to use default styles, import them:
+- Styles are not embedded into bundle. If you wish to use default styles, import them:
 ```js
 import ReactModalLogin from "react-modal-login";
 import "react-modal-login/dist/react-modal-login.css";
@@ -51,7 +51,8 @@ const facebook = {
   cookie: true,
   xfbml: true,
   version: "v12.0",
-  scope: "email"
+  scope: "email",
+  return_scopes: false
 };
 
 export const facebookConfig = facebook;
@@ -218,7 +219,7 @@ class Sample extends React.Component {
 
 - `mainWrapId` |_string_| - id of the whole component's wrapper
 
-- `initialTab` |_string_| - (default _"login"_) initial tab we'd like to mark as opened - _'login'_, _'register'_ or _'recoverPassword'_
+- `initialTab` |_string_| - (default _"login"_) initial tab we'd like to mark as opened - _'login'_, _'register'_ or _'recoverPassword'_. Think of it as defaultValue in stateless inputs. It will be renamed to defaultValue in later releases.
 
 - `onAfterCloseModal` |_function_| - action executing just after the closing of modal
 
@@ -242,29 +243,6 @@ class Sample extends React.Component {
 - `aboveSocialsRegisterContainer` |_component_| - custom container above socials buttons visible on register tab
 
 - `aboveSocialsRecoverPasswordContainer` |_component_| - custom container above socials buttons visible on recover password tab
-- `changeTab` |_func_| - Grab this component ref and launch this function if you'd like programatically change the tab.
-  accepted values: _'login'_, _'register'_, _'recoverPassword'_. However if you intend to do so, you should
-  clean that property afterwards. For instance:
-
-```js
-
-    <ReactModalLogin
-      ...
-      ref={(r) => this.loginModalRef = r}
-      ...
-     />
-
-```
-
-and then:
-
-```js
-  onSelectTab(tab) {
-   this.loginModalRef.changeTab(tab);
- }
-```
-
-You may also achieve that in _tabs.afterChange()_ callback
 
 - `form` |_object_| - object of custom login/register form you may include in popup
 
@@ -366,9 +344,15 @@ You may also achieve that in _tabs.afterChange()_ callback
   - `label` |_string_ or _component_| - text of separator
 - `tabs` |_object_| - sign in / sign up tabs object
   - `containerClass` |_string_| - tabs container custom class
-  - `afterChange` |_function_| - callback which fires after the change of a tab
+  - `afterChange` |_function_| - callback which fires after the change of a tab, returns name of the new tab.
   - `loginLabel` |_string_| - text of login label
   - `registerLabel` |_string_| - text of register label
+  - `onLoginClickBeforeTransition` |_function_| - a callback triggered before login tab become active.
+  - `onLoginClickAfterTransition` |_function_| - a callback triggered after login tab become active.
+  - `onRegisterClickBeforeTransition` |_function_| - a callback triggered before register tab become active.
+  - `onRegisterClickAfterTransition` |_function_| - a callback triggered after register tab become active.
+  - `onRecoverPasswordClickBeforeTransition` |_function_| - a callback triggered before recoverPassword tab become active.
+  - `onRecoverPasswordClickAfterTransition` |_function_| - a callback triggered after recoverPassword tab become active.
 
 ### Common problems
 
