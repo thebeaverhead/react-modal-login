@@ -108,6 +108,10 @@ const FormWrap = (props) => {
 
   const formLoginInputs = formProps.loginInputs
     ? formProps.loginInputs.map((input, index) => {
+        if (input.component) {
+          return input.component;
+        }
+
         return (
           <div
             className={
@@ -127,6 +131,7 @@ const FormWrap = (props) => {
               key={"formLoginInput-" + index}
               defaultValue=""
               placeholder={input.placeholder}
+              {...input}
             />
           </div>
         );
@@ -135,6 +140,9 @@ const FormWrap = (props) => {
 
   const formRegisterInputs = formProps.registerInputs
     ? formProps.registerInputs.map((input, index) => {
+        if (input.component) {
+          return input.component;
+        }
         return (
           <div
             className={
@@ -152,7 +160,7 @@ const FormWrap = (props) => {
               name={input.name}
               ref={setInputRef}
               key={"formRegisterInput-" + index}
-              defaultValue=""
+              defaultValue={input.defaultValue || ""}
               placeholder={input.placeholder}
             />
           </div>
@@ -162,6 +170,10 @@ const FormWrap = (props) => {
 
   const formRecoverPasswordInputs = formProps.recoverPasswordInputs
     ? formProps.recoverPasswordInputs.map((input, index) => {
+        if (input.component) {
+          return input.component;
+        }
+
         return (
           <div
             className={

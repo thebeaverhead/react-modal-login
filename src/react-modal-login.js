@@ -103,7 +103,7 @@ const ReactModalLogin = (props) => {
   useEffect(() => {
     if (props.visible) {
       if (props.tabs.afterChange) {
-        props.tabs.afterChange();
+        props.tabs.afterChange(state.currentTab);
       }
 
       if (state.currentTab === "login") {
@@ -113,6 +113,10 @@ const ReactModalLogin = (props) => {
       } else if (state.currentTab === "register") {
         if (props.tabs && props.tabs.onRegisterClickAfterTransition) {
           props.tabs.onRegisterClickAfterTransition();
+        }
+      } else if (state.currentTab === "recoverPassword") {
+        if (props.tabs && props.tabs.onRecoverPasswordClickAfterTransition) {
+          props.tabs.onRecoverPasswordClickAfterTransition();
         }
       }
     }
@@ -210,8 +214,6 @@ const ReactModalLogin = (props) => {
       currentTab: "login",
     });
 
-    /*
-     */
   };
 
   /**
@@ -228,6 +230,10 @@ const ReactModalLogin = (props) => {
     });
   };
 
+
+  /**
+   *
+   */
   const recoverPasswordAnchorClick = () => {
     setState({
       ...state,
@@ -561,6 +567,15 @@ ReactModalLogin.propTypes = {
     afterChange: PropTypes.func,
     loginLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     registerLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+
+    onLoginClickBeforeTransition: PropTypes.func,
+    onLoginClickAfterTransition: PropTypes.func,
+
+    onRegisterClickBeforeTransition: PropTypes.func,
+    onRegisterClickAfterTransition: PropTypes.func,
+
+    onRecoverPasswordClickBeforeTransition: PropTypes.func,
+    onRecoverPasswordClickAfterTransition: PropTypes.func,
   }),
   additionalWrap: PropTypes.shape({
     containerClass: PropTypes.string,
@@ -639,8 +654,9 @@ ReactModalLogin.propTypes = {
         id: PropTypes.string,
         name: PropTypes.string,
         placeholder: PropTypes.string,
-
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+        defaultValue: PropTypes.string,
+        component: PropTypes.object
       })
     ),
     registerInputs: PropTypes.arrayOf(
@@ -651,8 +667,9 @@ ReactModalLogin.propTypes = {
         id: PropTypes.string,
         name: PropTypes.string,
         placeholder: PropTypes.string,
-
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+        defaultValue: PropTypes.string,
+        component: PropTypes.object
       })
     ),
     recoverPasswordInputs: PropTypes.arrayOf(
@@ -663,8 +680,9 @@ ReactModalLogin.propTypes = {
         id: PropTypes.string,
         name: PropTypes.string,
         placeholder: PropTypes.string,
-
         label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+        defaultValue: PropTypes.string,
+        component: PropTypes.object
       })
     ),
   }),

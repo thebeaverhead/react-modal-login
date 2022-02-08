@@ -12,9 +12,10 @@ in this manual.
 ### Compatibility
 
 | React version | react-modal-login |
-| ------------- | ----------------- |
-| >= 16.0        | latest            |
-| < 15.0         | 1.3.4             |
+|---------------|-------------------|
+| \>= 17.0      | \>= 2.0.6         |
+| \>= 16.0      | < 2.0.6           |
+| < 15.0        | 1.3.4             |
 
 ### v2 breaking changes:
 - Styles are not embedded into bundle. If you with to use default styles, import them:
@@ -96,8 +97,8 @@ You need to create methods to be passed to ReactModalLogin component such as:
 - `closeModal()` - action to close the modal. You need to pass it to the component later on to enable hiding the modal
   by clicking close button or clicking in overlay wrap
 - `startLoading()` - action needed to serve the loading event. When there is an asynchronous action in component you may
-  be willing to make other elements inactive
-- `finishLoading()` - that action is indicating the end of loading and it's making all the elements inside the component
+  be willing to make other components inactive
+- `finishLoading()` - that action is indicating the end of loading and it's making all the components inside the component
   active again
 - `afterTabsChange()` - callback to clicking tab button. As provided in our example, you may use it to clean the error state
 
@@ -234,13 +235,13 @@ class Sample extends React.Component {
 - `closeBtn` |_object_| - close button object
 
   - `containerClass` |_string_| - close button container custom class
-  - `element` |_element_| - custom close button we'd like to attach
+  - `element` |_component_| - custom close button we'd like to attach
 
-- `aboveSocialsLoginContainer` |_element_| - custom container above socials buttons visible on login tab
+- `aboveSocialsLoginContainer` |_component_| - custom container above socials buttons visible on login tab
 
-- `aboveSocialsRegisterContainer` |_element_| - custom container above socials buttons visible on register tab
+- `aboveSocialsRegisterContainer` |_component_| - custom container above socials buttons visible on register tab
 
-- `aboveSocialsRecoverPasswordContainer` |_element_| - custom container above socials buttons visible on recover password tab
+- `aboveSocialsRecoverPasswordContainer` |_component_| - custom container above socials buttons visible on recover password tab
 - `changeTab` |_func_| - Grab this component ref and launch this function if you'd like programatically change the tab.
   accepted values: _'login'_, _'register'_, _'recoverPassword'_. However if you intend to do so, you should
   clean that property afterwards. For instance:
@@ -274,26 +275,26 @@ You may also achieve that in _tabs.afterChange()_ callback
   - `loginContainerClass` |_string_| - custom class of login form container
   - `registerContainerClass` |_string_| - custom class of register form container
   - `recoverPasswordContainerClass` |_string_| - custom class of password recovery form container
-  - `bottomLoginContainer` |_element_| - custom container below login inputs group
-  - `bottomRegisterContainer` |_element_| - custom container below register inputs group
-  - `bottomRecoverPasswordContainer` |_element_| - custom container below password recovery inputs group
+  - `bottomLoginContainer` |_component_| - custom container below login inputs group
+  - `bottomRegisterContainer` |_component_| - custom container below register inputs group
+  - `bottomRecoverPasswordContainer` |_component_| - custom container below password recovery inputs group
 
   - `recoverPasswordSuccessLabel` - |_object_| - Text being displayed when we successfully recover password
     _ `labelClass` |*string*| - custom class of the text
-    _ `label` |_string_ or _element_| - text of the text
+    _ `label` |_string_ or _component_| - text of the text
 
   - `recoverPasswordAnchor` - |_object_| - Forgotten password link visible on login tab
     - `anchorClass` |_string_| - custom class of the link
-    - `label` |_string_ or _element_| - text of the link
+    - `label` |_string_ or _component_| - text of the link
   - `loginBtn` - |_object_| - login button
     - `buttonClass` |_string_| - custom class of login button
-    - `label` |_string_ or _element_| - text inside login button
+    - `label` |_string_ or _component_| - text inside login button
   - `registerBtn` - |_object_| - register button
     - `buttonClass` |_string_| - custom class of register button
-    - `label` |_string_ or _element_| - text inside register button
+    - `label` |_string_ or _component_| - text inside register button
   - `recoverPasswordBtn` - |_object_| - recover password button
     - `buttonClass` |_string_| - custom class of recover password button
-    - `label` |_string_ or _element_| - text inside recover password button
+    - `label` |_string_ or _component_| - text inside recover password button
   - `loginInputs` |_array_| - Array of objects. Every each of them represents single login input field
     - `containerClass` |_string_| - custom class of input wrap
     - `type` |_string_| - HTML type of input (email, password, text, number etc.)
@@ -301,7 +302,9 @@ You may also achieve that in _tabs.afterChange()_ callback
     - `id` |_string_| - input's id
     - `name` |_string_| - input's name
     - `placeholder` |_string_| - input's placeholder
-    - `label` |_string_ or _element_| - label of the input
+    - `label` |_string_ or _component_| - label of the input
+    - `defaultValue` |_string_| - a default value for the input. 
+    - `component` |_object_| - Allows to render a given React component instead of input. 
   - `registerInputs` |_array_| - Array of objects. Every each of them represents single register input field
     - `containerClass` |_string_| - custom class of input wrap
     - `type` |_string_| - HTML type of input (email, password, text, number etc.)
@@ -309,7 +312,9 @@ You may also achieve that in _tabs.afterChange()_ callback
     - `id` |_string_| - input's id
     - `name` |_string_| - input's name
     - `placeholder` |_string_| - input's placeholder
-    - `label` |_string_ or _element_| - label of the input
+    - `label` |_string_ or _component_| - label of the input
+    - `defaultValue` |_string_| - a default value for the input.
+    - `component` |_object_| - Allows to render a given React component instead of input.
   - `recoverPasswordInputs` |_array_| - Array of objects. Every each of them represents single recovery password form input field
     - `containerClass` |_string_| - custom class of input wrap
     - `type` |_string_| - HTML type of input (email, password, text, number etc.)
@@ -317,8 +322,9 @@ You may also achieve that in _tabs.afterChange()_ callback
     - `id` |_string_| - input's id
     - `name` |_string_| - input's name
     - `placeholder` |_string_| - input's placeholder
-    - `label` |_string_ or _element_| - label of the input
-
+    - `label` |_string_ or _component_| - label of the input
+    - `defaultValue` |_string*_*| - a default value for the input.
+    - `component` |_object_| - Allows to render a given React component instead of input.
 - `loader` |_object_| - loader svg object
   - `containerClass` |_string_| - loader container custom class
   - `disabled` |_boolean_| - boolean determining if the loader should be disabled
@@ -328,36 +334,36 @@ You may also achieve that in _tabs.afterChange()_ callback
     - `config` |_object_| - Facebook API config parameters used to init the modal
       (for more info please see [Facebook API config docs](https://developers.facebook.com/docs/javascript/reference/FB.init/v2.11)
       and [Facebook API scope docs](https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11))
-    - `btn` |_element_| - if you would like to insert custom button for facebook login include it here
+    - `btn` |_component_| - if you would like to insert custom button for facebook login include it here
     - `onLoginSuccess` |_function(method, response)_| - login success callback. It returns _method_ which will be 'facebook'
       and login success response
     - `onLoginFail` |_function(method, response)_| - login fail callback. It returns _method_ which will be 'facebook'
       and login fail response
-    - `label` |_string_ or _element_| - text inside FB button
+    - `label` |_string_ or _component_| - text inside FB button
   - `google` - |_object_| - google button object
     - `btnClass` |_string_| - button custom class
     - `config` |_object_| - Google API config parameters used to init the modal
       (for more info please visit [Google developers page](https://developers.google.com/identity/sign-in/web/reference#gapiauth2clientconfig))
-    - `btn` |_element_| - if you would like to insert custom button for google login include it here
+    - `btn` |_component_| - if you would like to insert custom button for google login include it here
     - `onLoginSuccess` |_function(method, response)_| - login success callback. It returns _method_ which will be 'google'
       and login success response
     - `onLoginFail` |_function(method, response)_| - login fail callback. It returns _method_ which will be 'google'
       and login fail response
-    - `label` |_string_ or _element_| - text inside Google button
+    - `label` |_string_ or _component_| - text inside Google button
 - `loginError` |_object_| - login error message object
 
   - `containerClass` |_string_| - login error container custom class
-  - `label` |_string_ or _element_| - text of failed login message
+  - `label` |_string_ or _component_| - text of failed login message
 
 - `registerError` |_object_| - register error message object
   - `containerClass` |_string_| - register error container custom class
-  - `label` |_string_ or _element_| - text of failed register message
+  - `label` |_string_ or _component_| - text of failed register message
 - `recoverPasswordError` |_object_| - recover password error message object
   - `containerClass` |_string_| - recover password error container custom class
-  - `label` |_string_ or _element_| - text of failed recover password message
+  - `label` |_string_ or _component_| - text of failed recover password message
 - `separator` |_object_| - object of separator which sits between social login buttons and custom form
   - `containerClass` |_string_| - separator custom class
-  - `label` |_string_ or _element_| - text of separator
+  - `label` |_string_ or _component_| - text of separator
 - `tabs` |_object_| - sign in / sign up tabs object
   - `containerClass` |_string_| - tabs container custom class
   - `afterChange` |_function_| - callback which fires after the change of a tab

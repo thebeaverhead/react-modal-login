@@ -14,6 +14,7 @@ const FacebookLoginButton = (props) => {
   const FBLoginDialog = () => {
     props.onStartLoading();
 
+
     window.FB.login(
       (response) => {
         if (response.status == "connected" && props.onSuccess) {
@@ -22,7 +23,7 @@ const FacebookLoginButton = (props) => {
           props.onFail("facebook", response);
         }
       },
-      { scope: props.scope }
+      { scope: props.scope, return_scopes: props.return_scopes || false }
     );
   };
 
@@ -45,6 +46,6 @@ FacebookLoginButton.propTypes = {
   label: PropTypes.string.isRequired,
   btnClass: PropTypes.string.isRequired,
   inactive: PropTypes.bool.isRequired,
-}
+};
 
 export default FacebookLoginButton;
